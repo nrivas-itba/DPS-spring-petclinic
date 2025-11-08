@@ -28,7 +28,7 @@ import org.springframework.http.MediaType;
 import org.springframework.samples.petclinic.domain.repository.VetRepository;
 import org.springframework.samples.petclinic.formatting.persistance.vet.Specialty;
 import org.springframework.samples.petclinic.formatting.persistance.vet.Vet;
-import org.springframework.samples.petclinic.formatting.controller.VetController;
+import org.springframework.samples.petclinic.web.controller.VetController;
 import org.springframework.test.context.aot.DisabledInAotMode;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
