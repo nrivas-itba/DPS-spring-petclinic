@@ -25,9 +25,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
-import org.springframework.samples.petclinic.domain.repository.VetRepository;
-import org.springframework.samples.petclinic.formatting.persistance.vet.Specialty;
-import org.springframework.samples.petclinic.formatting.persistance.vet.Vet;
+import org.springframework.samples.petclinic.application.service.VetService;
+import org.springframework.samples.petclinic.domain.model.Vet;
+import org.springframework.samples.petclinic.infrastructure.persistence.mapper.VetMapper;
 import org.springframework.samples.petclinic.web.controller.VetController;
 import org.springframework.test.context.aot.DisabledInAotMode;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -53,7 +53,10 @@ class VetControllerTests {
 	private MockMvc mockMvc;
 
 	@MockitoBean
-	private VetRepository vets;
+	private VetService vetService;
+
+	@MockitoBean
+	private VetMapper vetMapper;
 
 	private Vet james() {
 		Vet james = new Vet();
@@ -68,7 +71,8 @@ class VetControllerTests {
 		helen.setFirstName("Helen");
 		helen.setLastName("Leary");
 		helen.setId(2);
-		Specialty radiology = new Specialty();
+		org.springframework.samples.petclinic.domain.model.Specialty radiology = 
+			new org.springframework.samples.petclinic.domain.model.Specialty();
 		radiology.setId(1);
 		radiology.setName("radiology");
 		helen.addSpecialty(radiology);
@@ -77,10 +81,34 @@ class VetControllerTests {
 
 	@BeforeEach
 	void setup() {
-		given(this.vets.findAll()).willReturn(Lists.newArrayList(james(), helen()));
-		given(this.vets.findAll(any(Pageable.class)))
+		given(this.vetService.findAll()).willReturn(Lists.newArrayList(james(), helen()));
+		given(this.vetService.findAll(any(Pageable.class)))
 			.willReturn(new PageImpl<Vet>(Lists.newArrayList(james(), helen())));
 
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet jamesJpa = 
+			new org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet();
+		jamesJpa.setId(james().getId());
+		jamesJpa.setFirstName(james().getFirstName());
+		jamesJpa.setLastName(james().getLastName());
+
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet helenJpa = 
+			new org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet();
+		helenJpa.setId(helen().getId());
+		helenJpa.setFirstName(helen().getFirstName());
+		helenJpa.setLastName(helen().getLastName());
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Specialty radiologyJpa = 
+			new org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Specialty();
+		radiologyJpa.setId(1);
+		radiologyJpa.setName("radiology");
+		helenJpa.addSpecialty(radiologyJpa);
+
+		given(this.vetMapper.toJpa(any(Vet.class))).willAnswer(invocation -> {
+			Vet v = invocation.getArgument(0);
+			if (v.getId() == 1) {
+				return jamesJpa;
+			}
+			return helenJpa;
+		});
 	}
 
 	@Test

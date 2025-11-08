@@ -16,12 +16,15 @@
 package org.springframework.samples.petclinic.web.controller;
 
 import java.util.Map;
-import java.util.Optional;
 
-import org.springframework.samples.petclinic.domain.repository.OwnerRepository;
-import org.springframework.samples.petclinic.formatting.persistance.owner.Owner;
-import org.springframework.samples.petclinic.formatting.persistance.owner.Pet;
-import org.springframework.samples.petclinic.formatting.persistance.owner.Visit;
+import org.springframework.samples.petclinic.application.exception.PetNotFoundException;
+import org.springframework.samples.petclinic.application.service.OwnerService;
+import org.springframework.samples.petclinic.application.service.VisitService;
+import org.springframework.samples.petclinic.domain.model.Owner;
+import org.springframework.samples.petclinic.domain.model.Visit;
+import org.springframework.samples.petclinic.infrastructure.persistence.mapper.OwnerMapper;
+import org.springframework.samples.petclinic.infrastructure.persistence.mapper.PetMapper;
+import org.springframework.samples.petclinic.infrastructure.persistence.mapper.VisitMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -30,9 +33,9 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.validation.Valid;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * @author Juergen Hoeller
@@ -45,10 +48,23 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class VisitController {
 
-	private final OwnerRepository owners;
+	private final OwnerService ownerService;
 
-	public VisitController(OwnerRepository owners) {
-		this.owners = owners;
+	private final VisitService visitService;
+
+	private final OwnerMapper ownerMapper;
+
+	private final PetMapper petMapper;
+
+	private final VisitMapper visitMapper;
+
+	public VisitController(OwnerService ownerService, VisitService visitService, OwnerMapper ownerMapper,
+			PetMapper petMapper, VisitMapper visitMapper) {
+		this.ownerService = ownerService;
+		this.visitService = visitService;
+		this.ownerMapper = ownerMapper;
+		this.petMapper = petMapper;
+		this.visitMapper = visitMapper;
 	}
 
 	@InitBinder
@@ -60,49 +76,60 @@ public class VisitController {
 	 * Called before each and every @RequestMapping annotated method. 2 goals: - Make sure
 	 * we always have fresh data - Since we do not use the session scope, make sure that
 	 * Pet object always has an id (Even though id is not part of the form fields)
-	 * @param petId
-	 * @return Pet
+	 * @param ownerId the owner ID
+	 * @param petId the pet ID
+	 * @param model the model
+	 * @return Visit
 	 */
 	@ModelAttribute("visit")
-	public Visit loadPetWithVisit(@PathVariable("ownerId") int ownerId, @PathVariable("petId") int petId,
-								  Map<String, Object> model) {
-		Optional<Owner> optionalOwner = owners.findById(ownerId);
-		Owner owner = optionalOwner.orElseThrow(() -> new IllegalArgumentException(
-				"Owner not found with id: " + ownerId + ". Please ensure the ID is correct "));
+	public org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Visit loadPetWithVisit(
+			@PathVariable("ownerId") int ownerId, @PathVariable("petId") int petId, Map<String, Object> model) {
+		Owner domainOwner = ownerService.findById(ownerId);
+		org.springframework.samples.petclinic.domain.model.Pet domainPet = findPetOrThrow(domainOwner, petId);
 
-		Pet pet = owner.getPet(petId);
-		if (pet == null) {
-			throw new IllegalArgumentException(
-					"Pet with id " + petId + " not found for owner with id " + ownerId + ".");
-		}
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner owner = ownerMapper
+			.toJpa(domainOwner);
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Pet pet = petMapper
+			.toJpa(domainPet);
+
 		model.put("pet", pet);
 		model.put("owner", owner);
 
-		Visit visit = new Visit();
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Visit visit = 
+			new org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Visit();
 		pet.addVisit(visit);
 		return visit;
 	}
 
-	// Spring MVC calls method loadPetWithVisit(...) before initNewVisitForm is
-	// called
 	@GetMapping("/owners/{ownerId}/pets/{petId}/visits/new")
 	public String initNewVisitForm() {
 		return "pets/createOrUpdateVisitForm";
 	}
 
-	// Spring MVC calls method loadPetWithVisit(...) before processNewVisitForm is
-	// called
 	@PostMapping("/owners/{ownerId}/pets/{petId}/visits/new")
-	public String processNewVisitForm(@ModelAttribute Owner owner, @PathVariable int petId, @Valid Visit visit,
+	public String processNewVisitForm(
+			@ModelAttribute org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner owner,
+			@PathVariable int petId,
+			@Valid org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Visit visit,
 			BindingResult result, RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
 			return "pets/createOrUpdateVisitForm";
 		}
 
-		owner.addVisit(petId, visit);
-		this.owners.save(owner);
+		Owner domainOwner = ownerMapper.toDomain(owner);
+		Visit domainVisit = visitMapper.toDomain(visit);
+		visitService.createVisit(domainOwner, petId, domainVisit);
 		redirectAttributes.addFlashAttribute("message", "Your visit has been booked");
 		return "redirect:/owners/{ownerId}";
+	}
+
+	private org.springframework.samples.petclinic.domain.model.Pet findPetOrThrow(Owner owner, int petId) {
+		org.springframework.samples.petclinic.domain.model.Pet pet = owner.getPet(petId);
+		if (pet == null) {
+			throw new PetNotFoundException(
+					"Pet with id " + petId + " not found for owner with id " + owner.getId() + ".");
+		}
+		return pet;
 	}
 
 }

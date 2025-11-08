@@ -21,7 +21,7 @@ import java.util.List;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import org.jspecify.annotations.Nullable;
-import org.springframework.samples.petclinic.formatting.persistance.vet.Vet;
+import org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet;
 
 /**
  * Simple domain object representing a list of veterinarians. Mostly here to be used for

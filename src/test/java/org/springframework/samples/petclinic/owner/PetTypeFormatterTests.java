@@ -21,7 +21,6 @@ import static org.mockito.BDDMockito.given;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
@@ -32,9 +31,10 @@ import org.junit.jupiter.api.condition.DisabledInNativeImage;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.samples.petclinic.domain.repository.PetTypeRepository;
-import org.springframework.samples.petclinic.formatting.formatting.PetTypeFormatter;
-import org.springframework.samples.petclinic.formatting.persistance.model.PetType;
+import org.springframework.samples.petclinic.application.service.PetTypeService;
+import org.springframework.samples.petclinic.domain.model.PetType;
+import org.springframework.samples.petclinic.infrastructure.persistence.mapper.PetTypeMapper;
+import org.springframework.samples.petclinic.web.formatting.PetTypeFormatter;
 
 /**
  * Test class for {@link PetTypeFormatter}
@@ -46,18 +46,22 @@ import org.springframework.samples.petclinic.formatting.persistance.model.PetTyp
 class PetTypeFormatterTests {
 
 	@Mock
-	private PetTypeRepository types;
+	private PetTypeService petTypeService;
+
+	@Mock
+	private PetTypeMapper petTypeMapper;
 
 	private PetTypeFormatter petTypeFormatter;
 
 	@BeforeEach
 	void setup() {
-		this.petTypeFormatter = new PetTypeFormatter(types);
+		this.petTypeFormatter = new PetTypeFormatter(petTypeService, petTypeMapper);
 	}
 
 	@Test
 	void testPrint() {
-		PetType petType = new PetType();
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.PetType petType = 
+			new org.springframework.samples.petclinic.infrastructure.persistence.entity.PetType();
 		petType.setName("Hamster");
 		String petTypeName = this.petTypeFormatter.print(petType, Locale.ENGLISH);
 		assertThat(petTypeName).isEqualTo("Hamster");
@@ -65,14 +69,21 @@ class PetTypeFormatterTests {
 
 	@Test
 	void shouldParse() throws ParseException {
-		given(types.findPetTypes()).willReturn(makePetTypes());
-		PetType petType = petTypeFormatter.parse("Bird", Locale.ENGLISH);
+		List<PetType> domainTypes = makePetTypes();
+		given(petTypeService.findAll()).willReturn(domainTypes);
+		
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.PetType birdJpa = 
+			new org.springframework.samples.petclinic.infrastructure.persistence.entity.PetType();
+		birdJpa.setName("Bird");
+		given(petTypeMapper.toJpa(domainTypes.get(1))).willReturn(birdJpa);
+		
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.PetType petType = petTypeFormatter.parse("Bird", Locale.ENGLISH);
 		assertThat(petType.getName()).isEqualTo("Bird");
 	}
 
 	@Test
 	void shouldThrowParseException() {
-		given(types.findPetTypes()).willReturn(makePetTypes());
+		given(petTypeService.findAll()).willReturn(makePetTypes());
 		Assertions.assertThrows(ParseException.class, () -> {
 			petTypeFormatter.parse("Fish", Locale.ENGLISH);
 		});
@@ -80,20 +91,16 @@ class PetTypeFormatterTests {
 
 	/**
 	 * Helper method to produce some sample pet types just for test purpose
-	 * @return {@link Collection} of {@link PetType}
+	 * @return {@link List} of {@link PetType}
 	 */
 	private List<PetType> makePetTypes() {
 		List<PetType> petTypes = new ArrayList<>();
-		petTypes.add(new PetType() {
-			{
-				setName("Dog");
-			}
-		});
-		petTypes.add(new PetType() {
-			{
-				setName("Bird");
-			}
-		});
+		PetType dog = new PetType();
+		dog.setName("Dog");
+		petTypes.add(dog);
+		PetType bird = new PetType();
+		bird.setName("Bird");
+		petTypes.add(bird);
 		return petTypes;
 	}
 

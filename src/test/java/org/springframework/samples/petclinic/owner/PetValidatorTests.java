@@ -22,9 +22,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledInNativeImage;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.samples.petclinic.formatting.persistance.model.PetType;
-import org.springframework.samples.petclinic.formatting.persistance.owner.Pet;
-import org.springframework.samples.petclinic.formatting.validation.PetValidator;
+import org.springframework.samples.petclinic.infrastructure.persistence.entity.PetType;
+import org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Pet;
+import org.springframework.samples.petclinic.web.validation.PetValidator;
 import org.springframework.validation.Errors;
 import org.springframework.validation.MapBindingResult;
 

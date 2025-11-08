@@ -29,14 +29,14 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.samples.petclinic.formatting.persistance.owner.Owner;
-import org.springframework.samples.petclinic.domain.repository.OwnerRepository;
-import org.springframework.samples.petclinic.domain.repository.PetTypeRepository;
-import org.springframework.samples.petclinic.formatting.persistance.owner.Pet;
-import org.springframework.samples.petclinic.formatting.persistance.model.PetType;
-import org.springframework.samples.petclinic.formatting.persistance.owner.Visit;
-import org.springframework.samples.petclinic.formatting.persistance.vet.Vet;
-import org.springframework.samples.petclinic.domain.repository.VetRepository;
+import org.springframework.samples.petclinic.infrastructure.persistence.entity.PetType;
+import org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner;
+import org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Pet;
+import org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Visit;
+import org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet;
+import org.springframework.samples.petclinic.infrastructure.persistence.repository.OwnerJpaRepository;
+import org.springframework.samples.petclinic.infrastructure.persistence.repository.PetTypeJpaRepository;
+import org.springframework.samples.petclinic.infrastructure.persistence.repository.VetJpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -74,13 +74,13 @@ import org.springframework.transaction.annotation.Transactional;
 class ClinicServiceTests {
 
 	@Autowired
-	protected OwnerRepository owners;
+	protected OwnerJpaRepository owners;
 
 	@Autowired
-	protected PetTypeRepository types;
+	protected PetTypeJpaRepository types;
 
 	@Autowired
-	protected VetRepository vets;
+	protected VetJpaRepository vets;
 
 	private final Pageable pageable = Pageable.unpaged();
 
@@ -100,8 +100,8 @@ class ClinicServiceTests {
 		Owner owner = optionalOwner.get();
 		assertThat(owner.getLastName()).startsWith("Franklin");
 		assertThat(owner.getPets()).hasSize(1);
-		assertThat(owner.getPets().get(0).getType()).isNotNull();
-		assertThat(owner.getPets().get(0).getType().getName()).isEqualTo("cat");
+		assertThat(owner.getPets().iterator().next().getType()).isNotNull();
+		assertThat(owner.getPets().iterator().next().getType().getName()).isEqualTo("cat");
 	}
 
 	@Test

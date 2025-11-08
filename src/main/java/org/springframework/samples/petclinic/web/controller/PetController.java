@@ -15,21 +15,20 @@
  */
 package org.springframework.samples.petclinic.web.controller;
 
-import java.time.LocalDate;
 import java.util.Collection;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
-import org.springframework.samples.petclinic.domain.repository.OwnerRepository;
-import org.springframework.samples.petclinic.domain.repository.PetTypeRepository;
-import org.springframework.samples.petclinic.formatting.persistance.owner.Owner;
-import org.springframework.samples.petclinic.formatting.persistance.owner.Pet;
-import org.springframework.samples.petclinic.formatting.persistance.model.PetType;
-import org.springframework.samples.petclinic.formatting.validation.PetValidator;
+import org.springframework.samples.petclinic.application.service.OwnerService;
+import org.springframework.samples.petclinic.application.service.PetService;
+import org.springframework.samples.petclinic.application.service.PetTypeService;
+import org.springframework.samples.petclinic.domain.model.Owner;
+import org.springframework.samples.petclinic.domain.model.Pet;
+import org.springframework.samples.petclinic.infrastructure.persistence.mapper.OwnerMapper;
+import org.springframework.samples.petclinic.infrastructure.persistence.mapper.PetMapper;
+import org.springframework.samples.petclinic.infrastructure.persistence.mapper.PetTypeMapper;
+import org.springframework.samples.petclinic.web.validation.PetValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,11 +37,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.validation.Valid;
 import org.jspecify.annotations.Nullable;
-
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * @author Juergen Hoeller
@@ -56,40 +54,54 @@ public class PetController {
 
 	private static final String VIEWS_PETS_CREATE_OR_UPDATE_FORM = "pets/createOrUpdatePetForm";
 
-	private final OwnerRepository owners;
+	private final OwnerService ownerService;
 
-	private final PetTypeRepository types;
+	private final PetService petService;
 
-	public PetController(OwnerRepository owners, PetTypeRepository types) {
-		this.owners = owners;
-		this.types = types;
+	private final PetTypeService petTypeService;
+
+	private final OwnerMapper ownerMapper;
+
+	private final PetMapper petMapper;
+
+	private final PetTypeMapper petTypeMapper;
+
+	public PetController(OwnerService ownerService, PetService petService, PetTypeService petTypeService,
+			OwnerMapper ownerMapper, PetMapper petMapper, PetTypeMapper petTypeMapper) {
+		this.ownerService = ownerService;
+		this.petService = petService;
+		this.petTypeService = petTypeService;
+		this.ownerMapper = ownerMapper;
+		this.petMapper = petMapper;
+		this.petTypeMapper = petTypeMapper;
 	}
 
 	@ModelAttribute("types")
-	public Collection<PetType> populatePetTypes() {
-		return this.types.findPetTypes();
+	public Collection<org.springframework.samples.petclinic.infrastructure.persistence.entity.PetType> populatePetTypes() {
+		return petTypeService.findAll().stream()
+			.map(petTypeMapper::toJpa)
+			.collect(Collectors.toList());
 	}
 
 	@ModelAttribute("owner")
-	public Owner findOwner(@PathVariable("ownerId") int ownerId) {
-		Optional<Owner> optionalOwner = this.owners.findById(ownerId);
-		Owner owner = optionalOwner.orElseThrow(() -> new IllegalArgumentException(
-				"Owner not found with id: " + ownerId + ". Please ensure the ID is correct "));
-		return owner;
+	public org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner findOwner(
+			@PathVariable("ownerId") int ownerId) {
+		Owner domainOwner = ownerService.findById(ownerId);
+		return ownerMapper.toJpa(domainOwner);
 	}
 
 	@ModelAttribute("pet")
-	public @Nullable Pet findPet(@PathVariable("ownerId") int ownerId,
-								 @PathVariable(name = "petId", required = false) @Nullable Integer petId) {
+	public org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Pet findPet(
+			@PathVariable("ownerId") int ownerId,
+			@PathVariable(name = "petId", required = false) @Nullable Integer petId) {
 
 		if (petId == null) {
-			return new Pet();
+			return new org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Pet();
 		}
 
-		Optional<Owner> optionalOwner = this.owners.findById(ownerId);
-		Owner owner = optionalOwner.orElseThrow(() -> new IllegalArgumentException(
-				"Owner not found with id: " + ownerId + ". Please ensure the ID is correct "));
-		return owner.getPet(petId);
+		Owner domainOwner = ownerService.findById(ownerId);
+		Pet domainPet = domainOwner.getPet(petId);
+		return domainPet != null ? petMapper.toJpa(domainPet) : null;
 	}
 
 	@InitBinder("owner")
@@ -103,32 +115,34 @@ public class PetController {
 	}
 
 	@GetMapping("/pets/new")
-	public String initCreationForm(Owner owner, ModelMap model) {
-		Pet pet = new Pet();
+	public String initCreationForm(
+			org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner owner,
+			ModelMap model) {
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Pet pet =
+			new org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Pet();
 		owner.addPet(pet);
 		return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 	}
 
 	@PostMapping("/pets/new")
-	public String processCreationForm(Owner owner, @Valid Pet pet, BindingResult result,
-			RedirectAttributes redirectAttributes) {
+	public String processCreationForm(
+		@ModelAttribute("owner") org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner owner,
+		@ModelAttribute("pet") @Valid org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Pet pet,
+		BindingResult result, RedirectAttributes redirectAttributes) {
 
-		if (StringUtils.hasText(pet.getName()) && pet.isNew() && owner.getPet(pet.getName(), true) != null)
-			result.rejectValue("name", "duplicate", "already exists");
+		Owner domainOwner = ownerMapper.toDomain(owner);
+		Pet domainPet = petMapper.toDomain(pet);
 
-		LocalDate currentDate = LocalDate.now();
-		if (pet.getBirthDate() != null && pet.getBirthDate().isAfter(currentDate)) {
-			result.rejectValue("birthDate", "typeMismatch.birthDate");
-		}
+		validatePetNameUniqueness(domainOwner, domainPet, result);
+		validateBirthDate(domainPet, result);
 
 		if (result.hasErrors()) {
 			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 		}
 
-		owner.addPet(pet);
-		this.owners.save(owner);
+		petService.createPet(domainOwner, domainPet);
 		redirectAttributes.addFlashAttribute("message", "New Pet has been Added");
-		return "redirect:/owners/{ownerId}";
+		return String.format("redirect:/owners/%s", owner.getId());
 	}
 
 	@GetMapping("/pets/{petId}/edit")
@@ -137,52 +151,38 @@ public class PetController {
 	}
 
 	@PostMapping("/pets/{petId}/edit")
-	public String processUpdateForm(Owner owner, @Valid Pet pet, BindingResult result,
-			RedirectAttributes redirectAttributes) {
+	public String processUpdateForm(
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner owner,
+		@Valid org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Pet pet,
+		BindingResult result, RedirectAttributes redirectAttributes) {
 
-		String petName = pet.getName();
+		Owner domainOwner = ownerMapper.toDomain(owner);
+		Pet domainPet = petMapper.toDomain(pet);
 
-		// checking if the pet name already exists for the owner
-		if (StringUtils.hasText(petName)) {
-			Pet existingPet = owner.getPet(petName, false);
-			if (existingPet != null && !Objects.equals(existingPet.getId(), pet.getId())) {
-				result.rejectValue("name", "duplicate", "already exists");
-			}
-		}
-
-		LocalDate currentDate = LocalDate.now();
-		if (pet.getBirthDate() != null && pet.getBirthDate().isAfter(currentDate)) {
-			result.rejectValue("birthDate", "typeMismatch.birthDate");
-		}
+		validatePetNameUniqueness(domainOwner, domainPet, result);
+		validateBirthDate(domainPet, result);
 
 		if (result.hasErrors()) {
 			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 		}
 
-		updatePetDetails(owner, pet);
+		petService.updatePet(domainOwner, domainPet);
 		redirectAttributes.addFlashAttribute("message", "Pet details has been edited");
-		return "redirect:/owners/{ownerId}";
+		return String.format("redirect:/owners/%s", owner.getId());
 	}
 
-	/**
-	 * Updates the pet details if it exists or adds a new pet to the owner.
-	 * @param owner The owner of the pet
-	 * @param pet The pet with updated details
-	 */
-	private void updatePetDetails(Owner owner, Pet pet) {
-		Integer id = pet.getId();
-		Assert.state(id != null, "'pet.getId()' must not be null");
-		Pet existingPet = owner.getPet(id);
-		if (existingPet != null) {
-			// Update existing pet's properties
-			existingPet.setName(pet.getName());
-			existingPet.setBirthDate(pet.getBirthDate());
-			existingPet.setType(pet.getType());
+	private void validatePetNameUniqueness(Owner owner, Pet pet, BindingResult result) {
+		String petName = pet.getName();
+		Integer petId = pet.getId();
+		if (!petService.isPetNameUniqueForOwner(owner, petName, petId)) {
+			result.rejectValue("name", "duplicate", "already exists");
 		}
-		else {
-			owner.addPet(pet);
+	}
+
+	private void validateBirthDate(Pet pet, BindingResult result) {
+		if (!petService.isBirthDateValid(pet.getBirthDate())) {
+			result.rejectValue("birthDate", "typeMismatch.birthDate");
 		}
-		this.owners.save(owner);
 	}
 
 }

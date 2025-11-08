@@ -17,7 +17,7 @@
 package org.springframework.samples.petclinic.service;
 
 import org.springframework.orm.ObjectRetrievalFailureException;
-import org.springframework.samples.petclinic.formatting.persistance.model.BaseRelationEntity;
+import org.springframework.samples.petclinic.infrastructure.persistence.entity.BaseEntity;
 
 import java.util.Collection;
 
@@ -27,7 +27,7 @@ import java.util.Collection;
  *
  * @author Juergen Hoeller
  * @author Sam Brannen
- * @see BaseRelationEntity
+ * @see BaseEntity
  * @since 29.10.2003
  */
 public abstract class EntityUtils {
@@ -40,7 +40,7 @@ public abstract class EntityUtils {
 	 * @return the found entity
 	 * @throws ObjectRetrievalFailureException if the entity was not found
 	 */
-	public static <T extends BaseRelationEntity> T getById(Collection<T> entities, Class<T> entityClass, int entityId)
+	public static <T extends BaseEntity> T getById(Collection<T> entities, Class<T> entityClass, int entityId)
 			throws ObjectRetrievalFailureException {
 		for (T entity : entities) {
 			if (entity.getId() != null && entity.getId() == entityId && entityClass.isInstance(entity)) {

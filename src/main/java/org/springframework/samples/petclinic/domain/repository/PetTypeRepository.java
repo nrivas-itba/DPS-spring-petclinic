@@ -18,23 +18,21 @@ package org.springframework.samples.petclinic.domain.repository;
 
 import java.util.List;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.samples.petclinic.formatting.persistance.model.PetType;
+import org.springframework.samples.petclinic.domain.model.PetType;
 
 /**
- * Repository class for <code>PetType</code> domain objects.
+ * Repository interface for PetType domain objects.
+ * This interface is independent of JPA and can be implemented by any persistence technology.
  *
- * @author Patrick Baumgartner
+ * @author Wick Dynex
  */
-
-public interface PetTypeRepository extends JpaRepository<PetType, Integer> {
+public interface PetTypeRepository {
 
 	/**
 	 * Retrieve all {@link PetType}s from the data store.
-	 * @return a Collection of {@link PetType}s.
+	 * @return a List of {@link PetType}s.
 	 */
-	@Query("SELECT ptype FROM PetType ptype ORDER BY ptype.name")
-	List<PetType> findPetTypes();
+	List<PetType> findAll();
 
 }
+

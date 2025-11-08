@@ -24,21 +24,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.samples.petclinic.domain.repository.OwnerRepository;
-import org.springframework.samples.petclinic.domain.repository.PetTypeRepository;
-import org.springframework.samples.petclinic.formatting.formatting.PetTypeFormatter;
-import org.springframework.samples.petclinic.formatting.persistance.model.PetType;
-import org.springframework.samples.petclinic.formatting.persistance.owner.Owner;
-import org.springframework.samples.petclinic.formatting.persistance.owner.Pet;
+import org.springframework.samples.petclinic.application.service.OwnerService;
+import org.springframework.samples.petclinic.application.service.PetService;
+import org.springframework.samples.petclinic.application.service.PetTypeService;
+import org.springframework.samples.petclinic.domain.model.Owner;
+import org.springframework.samples.petclinic.domain.model.Pet;
+import org.springframework.samples.petclinic.domain.model.PetType;
+import org.springframework.samples.petclinic.infrastructure.persistence.mapper.OwnerMapper;
+import org.springframework.samples.petclinic.infrastructure.persistence.mapper.PetMapper;
+import org.springframework.samples.petclinic.infrastructure.persistence.mapper.PetTypeMapper;
 import org.springframework.samples.petclinic.web.controller.PetController;
+import org.springframework.samples.petclinic.web.formatting.PetTypeFormatter;
 import org.springframework.test.context.aot.DisabledInAotMode;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -66,19 +72,40 @@ class PetControllerTests {
 	private MockMvc mockMvc;
 
 	@MockitoBean
-	private OwnerRepository owners;
+	private OwnerService ownerService;
 
 	@MockitoBean
-	private PetTypeRepository types;
+	private PetService petService;
+
+	@MockitoBean
+	private PetTypeService petTypeService;
+
+	@MockitoBean
+	private OwnerMapper ownerMapper;
+
+	@MockitoBean
+	private PetMapper petMapper;
+
+	@MockitoBean
+	private PetTypeMapper petTypeMapper;
 
 	@BeforeEach
 	void setup() {
 		PetType cat = new PetType();
 		cat.setId(3);
 		cat.setName("hamster");
-		given(this.types.findPetTypes()).willReturn(List.of(cat));
+		given(this.petTypeService.findAll()).willReturn(List.of(cat));
+
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.PetType catJpa =
+			new org.springframework.samples.petclinic.infrastructure.persistence.entity.PetType();
+		catJpa.setId(cat.getId());
+		catJpa.setName(cat.getName());
+		given(this.petTypeMapper.toJpa(any(PetType.class))).willReturn(catJpa);
+		given(this.petTypeMapper.toDomain(any(org.springframework.samples.petclinic.infrastructure.persistence.entity.PetType.class)))
+			.willReturn(cat);
 
 		Owner owner = new Owner();
+		owner.setId(TEST_OWNER_ID); // Asegurar que el owner de dominio tiene el ID
 		Pet pet = new Pet();
 		Pet dog = new Pet();
 		owner.addPet(pet);
@@ -87,7 +114,78 @@ class PetControllerTests {
 		dog.setId(TEST_PET_ID + 1);
 		pet.setName("petty");
 		dog.setName("doggy");
-		given(this.owners.findById(TEST_OWNER_ID)).willReturn(Optional.of(owner));
+		given(this.ownerService.findById(TEST_OWNER_ID)).willReturn(owner);
+
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner ownerJpa =
+			new org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner();
+		ownerJpa.setId(TEST_OWNER_ID); // Asegurar que el ownerJpa tiene el ID
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Pet petJpa =
+			new org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Pet();
+		petJpa.setId(pet.getId());
+		petJpa.setName(pet.getName());
+		ownerJpa.addPet(petJpa);
+		given(this.ownerMapper.toJpa(any(Owner.class))).willReturn(ownerJpa);
+
+		// Actualizar este mock para que copie el ID del owner JPA al owner de dominio
+		given(this.ownerMapper.toDomain(any(org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner.class)))
+			.willAnswer(invocation -> {
+				org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner jpaOwner = invocation.getArgument(0);
+				Owner domainOwner = new Owner();
+				domainOwner.setId(jpaOwner.getId() != null ? jpaOwner.getId() : TEST_OWNER_ID);
+				domainOwner.setFirstName(jpaOwner.getFirstName());
+				domainOwner.setLastName(jpaOwner.getLastName());
+				domainOwner.setAddress(jpaOwner.getAddress());
+				domainOwner.setCity(jpaOwner.getCity());
+				domainOwner.setTelephone(jpaOwner.getTelephone());
+				// Copiar las mascotas si existen
+				jpaOwner.getPets().forEach(jpaPet -> {
+					Pet domainPet = new Pet();
+					domainPet.setId(jpaPet.getId());
+					domainPet.setName(jpaPet.getName());
+					domainPet.setBirthDate(jpaPet.getBirthDate());
+					domainOwner.addPet(domainPet);
+				});
+				return domainOwner;
+			});
+
+		given(this.petMapper.toJpa(any(Pet.class))).willReturn(petJpa);
+
+		// Actualizar este mock para que configure correctamente el type
+		given(this.petMapper.toDomain(any(org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Pet.class)))
+			.willAnswer(invocation -> {
+				org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Pet jpaPet = invocation.getArgument(0);
+				Pet domainPet = new Pet();
+				domainPet.setId(jpaPet.getId());
+				domainPet.setName(jpaPet.getName());
+				domainPet.setBirthDate(jpaPet.getBirthDate());
+				if (jpaPet.getType() != null) {
+					domainPet.setType(cat); // Usar el cat que ya tenemos configurado
+				}
+				return domainPet;
+			});
+
+		given(this.petService.isPetNameUniqueForOwner(any(Owner.class), eq("petty"), any())).willReturn(false);
+		given(this.petService.isPetNameUniqueForOwner(any(Owner.class), eq("Betty"), any())).willReturn(true);
+		given(this.petService.isPetNameUniqueForOwner(any(Owner.class), anyString(), any())).willReturn(true);
+		given(this.petService.isBirthDateValid(LocalDate.parse("2015-02-12"))).willReturn(true);
+		given(this.petService.isBirthDateValid(any(LocalDate.class))).willReturn(true);
+		given(this.petService.createPet(any(Owner.class), any(Pet.class))).willAnswer(invocation -> {
+			Owner o = invocation.getArgument(0);
+			Pet p = invocation.getArgument(1);
+			o.addPet(p);
+			return o;
+		});
+		given(this.petService.updatePet(any(Owner.class), any(Pet.class))).willAnswer(invocation -> {
+			Owner o = invocation.getArgument(0);
+			Pet p = invocation.getArgument(1);
+			Pet existing = o.getPet(p.getId());
+			if (existing != null) {
+				existing.setName(p.getName());
+				existing.setBirthDate(p.getBirthDate());
+				existing.setType(p.getType());
+			}
+			return o;
+		});
 	}
 
 	@Test
@@ -105,7 +203,7 @@ class PetControllerTests {
 				.param("type", "hamster")
 				.param("birthDate", "2015-02-12"))
 			.andExpect(status().is3xxRedirection())
-			.andExpect(view().name("redirect:/owners/{ownerId}"));
+			.andExpect(view().name("redirect:/owners/1"));
 	}
 
 	@Nested
@@ -125,10 +223,16 @@ class PetControllerTests {
 		}
 
 		@Test
-		void testProcessCreationFormWithDuplicateName() throws Exception {
+		void testProcessCreationFormWithDuplicateName() throws Exception
+		{
+			given(petService.isPetNameUniqueForOwner(any(Owner.class), eq("petty"), any()))
+				.willReturn(false);
 			mockMvc
-				.perform(post("/owners/{ownerId}/pets/new", TEST_OWNER_ID).param("name", "petty")
-					.param("birthDate", "2015-02-12"))
+				.perform(post("/owners/{ownerId}/pets/new", TEST_OWNER_ID)
+						.param("name", "petty")
+					.param("birthDate", "2015-02-12")
+					.param("type", "hamster"))
+
 				.andExpect(model().attributeHasNoErrors("owner"))
 				.andExpect(model().attributeHasErrors("pet"))
 				.andExpect(model().attributeHasFieldErrors("pet", "name"))
@@ -154,6 +258,8 @@ class PetControllerTests {
 		void testProcessCreationFormWithInvalidBirthDate() throws Exception {
 			LocalDate currentDate = LocalDate.now();
 			String futureBirthDate = currentDate.plusMonths(1).toString();
+
+			given(petService.isBirthDateValid(currentDate.plusMonths(1))).willReturn(false);
 
 			mockMvc
 				.perform(post("/owners/{ownerId}/pets/new", TEST_OWNER_ID).param("name", "Betty")
@@ -183,7 +289,7 @@ class PetControllerTests {
 				.param("type", "hamster")
 				.param("birthDate", "2015-02-12"))
 			.andExpect(status().is3xxRedirection())
-			.andExpect(view().name("redirect:/owners/{ownerId}"));
+			.andExpect(view().name("redirect:/owners/1"));
 	}
 
 	@Nested

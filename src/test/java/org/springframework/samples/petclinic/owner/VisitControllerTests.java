@@ -16,6 +16,7 @@
 
 package org.springframework.samples.petclinic.owner;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -28,15 +29,18 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledInNativeImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.samples.petclinic.domain.repository.OwnerRepository;
-import org.springframework.samples.petclinic.formatting.persistance.owner.Owner;
-import org.springframework.samples.petclinic.formatting.persistance.owner.Pet;
+import org.springframework.samples.petclinic.application.service.OwnerService;
+import org.springframework.samples.petclinic.application.service.VisitService;
+import org.springframework.samples.petclinic.domain.model.Owner;
+import org.springframework.samples.petclinic.domain.model.Pet;
+import org.springframework.samples.petclinic.domain.model.Visit;
+import org.springframework.samples.petclinic.infrastructure.persistence.mapper.OwnerMapper;
+import org.springframework.samples.petclinic.infrastructure.persistence.mapper.PetMapper;
+import org.springframework.samples.petclinic.infrastructure.persistence.mapper.VisitMapper;
 import org.springframework.samples.petclinic.web.controller.VisitController;
 import org.springframework.test.context.aot.DisabledInAotMode;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.Optional;
 
 /**
  * Test class for {@link VisitController}
@@ -57,7 +61,19 @@ class VisitControllerTests {
 	private MockMvc mockMvc;
 
 	@MockitoBean
-	private OwnerRepository owners;
+	private OwnerService ownerService;
+
+	@MockitoBean
+	private VisitService visitService;
+
+	@MockitoBean
+	private OwnerMapper ownerMapper;
+
+	@MockitoBean
+	private PetMapper petMapper;
+
+	@MockitoBean
+	private VisitMapper visitMapper;
 
 	@BeforeEach
 	void init() {
@@ -65,7 +81,43 @@ class VisitControllerTests {
 		Pet pet = new Pet();
 		owner.addPet(pet);
 		pet.setId(TEST_PET_ID);
-		given(this.owners.findById(TEST_OWNER_ID)).willReturn(Optional.of(owner));
+		given(this.ownerService.findById(TEST_OWNER_ID)).willReturn(owner);
+
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner ownerJpa = 
+			new org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner();
+		ownerJpa.setId(owner.getId());
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Pet petJpa = 
+			new org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Pet();
+		petJpa.setId(pet.getId());
+		ownerJpa.addPet(petJpa);
+
+		given(this.ownerMapper.toJpa(any(Owner.class))).willReturn(ownerJpa);
+		given(this.ownerMapper.toDomain(any(org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner.class)))
+			.willReturn(owner);
+		given(this.petMapper.toJpa(any(Pet.class))).willReturn(petJpa);
+		given(this.petMapper.toDomain(any(org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Pet.class)))
+			.willReturn(pet);
+
+		given(this.visitService.createVisit(any(Owner.class), any(Integer.class), any(Visit.class)))
+			.willAnswer(invocation -> {
+				Owner o = invocation.getArgument(0);
+				Integer petId = invocation.getArgument(1);
+				Visit visit = invocation.getArgument(2);
+				o.addVisit(petId, visit);
+				return o;
+			});
+
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Visit visitJpa = 
+			new org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Visit();
+		given(this.visitMapper.toDomain(any(org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Visit.class)))
+			.willAnswer(invocation -> {
+				org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Visit v = invocation.getArgument(0);
+				Visit domain = new Visit();
+				domain.setId(v.getId());
+				domain.setDate(v.getDate());
+				domain.setDescription(v.getDescription());
+				return domain;
+			});
 	}
 
 	@Test
