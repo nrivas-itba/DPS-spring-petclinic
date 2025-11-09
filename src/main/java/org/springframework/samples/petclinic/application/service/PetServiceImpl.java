@@ -50,15 +50,13 @@ public class PetServiceImpl implements PetService {
 	@Override
 	@Transactional
 	public Owner updatePet(Owner owner, Pet pet) {
-		Integer petId = pet.getId();
-		Pet existingPet = owner.getPet(petId);
-
-		if (existingPet != null) {
-			updatePetProperties(existingPet, pet);
-		}
-		else {
-			owner.addPet(pet);
-		}
+		owner.getPets().stream()
+			.filter(existingPet -> Objects.equals(existingPet.getId(), pet.getId()))
+			.findFirst()
+			.ifPresentOrElse(
+				existingPet -> updatePetProperties(existingPet, pet),
+				() -> owner.addPet(pet)
+			);
 
 		return ownerRepository.save(owner);
 	}

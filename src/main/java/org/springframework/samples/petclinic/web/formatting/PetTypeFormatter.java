@@ -56,14 +56,11 @@ public class PetTypeFormatter implements Formatter<PetType> {
 
 	@Override
 	public PetType parse(String text, Locale locale) throws ParseException {
-		Collection<org.springframework.samples.petclinic.domain.model.PetType> petTypes = this.petTypeService
-			.findAll();
-		for (org.springframework.samples.petclinic.domain.model.PetType type : petTypes) {
-			if (Objects.equals(type.getName(), text)) {
-				return petTypeMapper.toJpa(type);
-			}
-		}
-		throw new ParseException("type not found: " + text, 0);
+		return this.petTypeService.findAll().stream()
+			.filter(type -> Objects.equals(type.getName(), text))
+			.findFirst()
+			.map(petTypeMapper::toJpa)
+			.orElseThrow(() -> new ParseException("type not found: " + text, 0));
 	}
 
 }
