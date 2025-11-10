@@ -43,10 +43,10 @@ class OwnerDomainTests {
 	void testGetPetByNameIgnoreNew() {
 		// Given
 		Pet savedPet = new Pet();
-		savedPet.setId(1);
 		savedPet.setName("Leo");
 		savedPet.setBirthDate(LocalDate.of(2020, 9, 7));
 		owner.addPet(savedPet);
+		savedPet.setId(1);
 
 		// When
 		Pet result = owner.getPet("Leo", true);
@@ -60,10 +60,10 @@ class OwnerDomainTests {
 	void testGetPetByNameCaseInsensitive() {
 		// Given
 		Pet savedPet = new Pet();
-		savedPet.setId(1);
 		savedPet.setName("Leo");
 		savedPet.setBirthDate(LocalDate.of(2020, 9, 7));
 		owner.addPet(savedPet);
+		savedPet.setId(1);
 
 		// When
 		Pet result = owner.getPet("LEO", true);
@@ -124,19 +124,19 @@ class OwnerDomainTests {
 	void testGetPetByNameWithMultiplePets() {
 		// Given
 		Pet pet1 = new Pet();
-		pet1.setId(1);
 		pet1.setName("Leo");
 		owner.addPet(pet1);
+		pet1.setId(1);
 
 		Pet pet2 = new Pet();
-		pet2.setId(2);
 		pet2.setName("Max");
 		owner.addPet(pet2);
+		pet2.setId(2);
 
 		Pet pet3 = new Pet();
-		pet3.setId(3);
 		pet3.setName("Basil");
 		owner.addPet(pet3);
+		pet3.setId(3);
 
 		// When
 		Pet result = owner.getPet("Max", true);
@@ -151,9 +151,9 @@ class OwnerDomainTests {
 	void testGetPetByNameWithNullName() {
 		// Given
 		Pet pet = new Pet();
-		pet.setId(1);
 		pet.setName(null);
 		owner.addPet(pet);
+		pet.setId(1);
 
 		// When
 		Pet result = owner.getPet("Leo", true);
@@ -175,9 +175,9 @@ class OwnerDomainTests {
 	void testGetPetByNameMixedSavedAndNew() {
 		// Given
 		Pet savedPet = new Pet();
-		savedPet.setId(1);
 		savedPet.setName("Leo");
 		owner.addPet(savedPet);
+		savedPet.setId(1);
 
 		Pet newPet = new Pet();
 		newPet.setName("Basil");
