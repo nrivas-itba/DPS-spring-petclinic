@@ -55,7 +55,7 @@ public class PetServiceImpl implements PetService {
 			.filter(existingPet -> Objects.equals(existingPet.getId(), pet.getId()))
 			.findFirst()
 			.ifPresentOrElse(
-				existingPet -> updatePetProperties(existingPet, pet),//TODO: add TEST
+				existingPet -> updatePetProperties(existingPet, pet),
 				() -> owner.addPet(pet)
 			);
 
@@ -81,7 +81,7 @@ public class PetServiceImpl implements PetService {
 		return !birthDate.isAfter(currentDate);
 	}
 
-	private void updatePetProperties(Pet existingPet, Pet pet) {//TODO: add TEST
+	private void updatePetProperties(Pet existingPet, Pet pet) {
 		existingPet.setName(pet.getName());
 		existingPet.setBirthDate(pet.getBirthDate());
 		existingPet.setType(pet.getType());

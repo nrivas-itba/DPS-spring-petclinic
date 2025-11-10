@@ -43,7 +43,7 @@ public class OwnerRepositoryImpl implements OwnerRepository {
 	}
 
 	@Override
-	public Page<Owner> findByLastNameStartingWith(String lastName, Pageable pageable) {//TODO: add TEST
+	public Page<Owner> findByLastNameStartingWith(String lastName, Pageable pageable) {
 		return jpaRepository.findByLastNameStartingWith(lastName, pageable)
 			.map(mapper::toDomain);
 	}
