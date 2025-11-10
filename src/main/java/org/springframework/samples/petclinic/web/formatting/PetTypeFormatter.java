@@ -16,7 +16,7 @@
 package org.springframework.samples.petclinic.web.formatting;
 
 import org.springframework.format.Formatter;
-import org.springframework.samples.petclinic.application.service.interfaces.PetTypeService;
+import org.springframework.samples.petclinic.application.usecases.interfaces.PetTypeUseCase;
 import org.springframework.samples.petclinic.infrastructure.persistence.entity.PetType;
 import org.springframework.samples.petclinic.infrastructure.persistence.mapper.PetTypeMapper;
 import org.springframework.stereotype.Component;
@@ -38,11 +38,11 @@ import java.util.Objects;
 @Component
 public class PetTypeFormatter implements Formatter<PetType> {
 
-	private final PetTypeService petTypeService;
+	private final PetTypeUseCase petTypeService;
 
 	private final PetTypeMapper petTypeMapper;
 
-	public PetTypeFormatter(PetTypeService petTypeService, PetTypeMapper petTypeMapper) {
+	public PetTypeFormatter(PetTypeUseCase petTypeService, PetTypeMapper petTypeMapper) {
 		this.petTypeService = petTypeService;
 		this.petTypeMapper = petTypeMapper;
 	}

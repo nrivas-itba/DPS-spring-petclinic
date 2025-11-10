@@ -31,10 +31,9 @@ import org.junit.jupiter.api.condition.DisabledInNativeImage;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.samples.petclinic.application.service.interfaces.PetTypeService;
+import org.springframework.samples.petclinic.application.usecases.interfaces.PetTypeUseCase;
 import org.springframework.samples.petclinic.domain.model.PetType;
 import org.springframework.samples.petclinic.infrastructure.persistence.mapper.PetTypeMapper;
-import org.springframework.samples.petclinic.web.formatting.PetTypeFormatter;
 
 /**
  * Test class for {@link PetTypeFormatter}
@@ -46,7 +45,7 @@ import org.springframework.samples.petclinic.web.formatting.PetTypeFormatter;
 class PetTypeFormatterTests {
 
 	@Mock
-	private PetTypeService petTypeService;
+	private PetTypeUseCase petTypeService;
 
 	@Mock
 	private PetTypeMapper petTypeMapper;

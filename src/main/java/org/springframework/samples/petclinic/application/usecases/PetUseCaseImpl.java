@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.samples.petclinic.application.service;
+package org.springframework.samples.petclinic.application.usecases;
 
-import org.springframework.samples.petclinic.application.service.interfaces.PetService;
+import org.springframework.samples.petclinic.application.usecases.interfaces.PetUseCase;
 import org.springframework.samples.petclinic.domain.model.Owner;
 import org.springframework.samples.petclinic.domain.model.Pet;
 import org.springframework.samples.petclinic.domain.repository.OwnerRepository;
@@ -33,11 +33,11 @@ import java.util.Objects;
  */
 @Service
 @Transactional(readOnly = true)
-public class PetServiceImpl implements PetService {
+public class PetUseCaseImpl implements PetUseCase {
 
 	private final OwnerRepository ownerRepository;
 
-	public PetServiceImpl(OwnerRepository ownerRepository) {
+	public PetUseCaseImpl(OwnerRepository ownerRepository) {
 		this.ownerRepository = ownerRepository;
 	}
 

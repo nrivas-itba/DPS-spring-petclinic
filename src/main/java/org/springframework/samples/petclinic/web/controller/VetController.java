@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.samples.petclinic.application.service.interfaces.VetService;
+import org.springframework.samples.petclinic.application.usecases.interfaces.VetUseCase;
 import org.springframework.samples.petclinic.domain.Vets;
 import org.springframework.samples.petclinic.domain.model.Vet;
 import org.springframework.samples.petclinic.infrastructure.persistence.mapper.VetMapper;
@@ -42,11 +42,11 @@ public class VetController {
 
 	private static final int PAGE_SIZE = 5;
 
-	private final VetService vetService;
+	private final VetUseCase vetService;
 
 	private final VetMapper vetMapper;
 
-	public VetController(VetService vetService, VetMapper vetMapper) {
+	public VetController(VetUseCase vetService, VetMapper vetMapper) {
 		this.vetService = vetService;
 		this.vetMapper = vetMapper;
 	}

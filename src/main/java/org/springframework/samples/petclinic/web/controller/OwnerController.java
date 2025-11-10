@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.samples.petclinic.application.service.interfaces.OwnerService;
+import org.springframework.samples.petclinic.application.usecases.interfaces.OwnerUseCase;
 import org.springframework.samples.petclinic.domain.model.Owner;
 import org.springframework.samples.petclinic.infrastructure.persistence.mapper.OwnerMapper;
 import org.springframework.stereotype.Controller;
@@ -54,11 +54,11 @@ public class OwnerController {
 
 	private static final int PAGE_SIZE = 5;
 
-	private final OwnerService ownerService;
+	private final OwnerUseCase ownerService;
 
 	private final OwnerMapper ownerMapper;
 
-	public OwnerController(OwnerService ownerService, OwnerMapper ownerMapper) {
+	public OwnerController(OwnerUseCase ownerService, OwnerMapper ownerMapper) {
 		this.ownerService = ownerService;
 		this.ownerMapper = ownerMapper;
 	}

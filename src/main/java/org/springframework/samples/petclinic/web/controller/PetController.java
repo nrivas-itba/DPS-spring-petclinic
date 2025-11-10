@@ -18,9 +18,9 @@ package org.springframework.samples.petclinic.web.controller;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-import org.springframework.samples.petclinic.application.service.interfaces.OwnerService;
-import org.springframework.samples.petclinic.application.service.interfaces.PetService;
-import org.springframework.samples.petclinic.application.service.interfaces.PetTypeService;
+import org.springframework.samples.petclinic.application.usecases.interfaces.OwnerUseCase;
+import org.springframework.samples.petclinic.application.usecases.interfaces.PetUseCase;
+import org.springframework.samples.petclinic.application.usecases.interfaces.PetTypeUseCase;
 import org.springframework.samples.petclinic.domain.model.Owner;
 import org.springframework.samples.petclinic.domain.model.Pet;
 import org.springframework.samples.petclinic.infrastructure.persistence.mapper.OwnerMapper;
@@ -54,11 +54,11 @@ public class PetController {
 
 	private static final String VIEWS_PETS_CREATE_OR_UPDATE_FORM = "pets/createOrUpdatePetForm";
 
-	private final OwnerService ownerService;
+	private final OwnerUseCase ownerService;
 
-	private final PetService petService;
+	private final PetUseCase petService;
 
-	private final PetTypeService petTypeService;
+	private final PetTypeUseCase petTypeService;
 
 	private final OwnerMapper ownerMapper;
 
@@ -66,8 +66,8 @@ public class PetController {
 
 	private final PetTypeMapper petTypeMapper;
 
-	public PetController(OwnerService ownerService, PetService petService, PetTypeService petTypeService,
-			OwnerMapper ownerMapper, PetMapper petMapper, PetTypeMapper petTypeMapper) {
+	public PetController(OwnerUseCase ownerService, PetUseCase petService, PetTypeUseCase petTypeService,
+						 OwnerMapper ownerMapper, PetMapper petMapper, PetTypeMapper petTypeMapper) {
 		this.ownerService = ownerService;
 		this.petService = petService;
 		this.petTypeService = petTypeService;

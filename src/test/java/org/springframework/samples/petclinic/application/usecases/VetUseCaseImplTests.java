@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.samples.petclinic.application.service;
+package org.springframework.samples.petclinic.application.usecases;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,16 +42,16 @@ import static org.mockito.Mockito.when;
  * @author Wick Dynex
  */
 @ExtendWith(MockitoExtension.class)
-class VetServiceImplTests {
+class VetUseCaseImplTests {
 
 	@Mock
 	private VetRepository vetRepository;
 
-	private VetServiceImpl vetService;
+	private VetUseCaseImpl vetService;
 
 	@BeforeEach
 	void setUp() {
-		vetService = new VetServiceImpl(vetRepository);
+		vetService = new VetUseCaseImpl(vetRepository);
 	}
 
 	@Test

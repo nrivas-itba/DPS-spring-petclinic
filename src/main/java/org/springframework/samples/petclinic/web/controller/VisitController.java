@@ -18,8 +18,8 @@ package org.springframework.samples.petclinic.web.controller;
 import java.util.Map;
 
 import org.springframework.samples.petclinic.application.exception.PetNotFoundException;
-import org.springframework.samples.petclinic.application.service.interfaces.OwnerService;
-import org.springframework.samples.petclinic.application.service.interfaces.VisitService;
+import org.springframework.samples.petclinic.application.usecases.interfaces.OwnerUseCase;
+import org.springframework.samples.petclinic.application.usecases.interfaces.VisitUseCase;
 import org.springframework.samples.petclinic.domain.model.Owner;
 import org.springframework.samples.petclinic.domain.model.Visit;
 import org.springframework.samples.petclinic.infrastructure.persistence.mapper.OwnerMapper;
@@ -48,9 +48,9 @@ import jakarta.validation.Valid;
 @Controller
 public class VisitController {
 
-	private final OwnerService ownerService;
+	private final OwnerUseCase ownerService;
 
-	private final VisitService visitService;
+	private final VisitUseCase visitService;
 
 	private final OwnerMapper ownerMapper;
 
@@ -58,8 +58,8 @@ public class VisitController {
 
 	private final VisitMapper visitMapper;
 
-	public VisitController(OwnerService ownerService, VisitService visitService, OwnerMapper ownerMapper,
-			PetMapper petMapper, VisitMapper visitMapper) {
+	public VisitController(OwnerUseCase ownerService, VisitUseCase visitService, OwnerMapper ownerMapper,
+						   PetMapper petMapper, VisitMapper visitMapper) {
 		this.ownerService = ownerService;
 		this.visitService = visitService;
 		this.ownerMapper = ownerMapper;

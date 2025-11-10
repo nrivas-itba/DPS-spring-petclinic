@@ -24,16 +24,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.samples.petclinic.application.service.interfaces.OwnerService;
-import org.springframework.samples.petclinic.application.service.interfaces.PetService;
-import org.springframework.samples.petclinic.application.service.interfaces.PetTypeService;
+import org.springframework.samples.petclinic.application.usecases.interfaces.OwnerUseCase;
+import org.springframework.samples.petclinic.application.usecases.interfaces.PetUseCase;
+import org.springframework.samples.petclinic.application.usecases.interfaces.PetTypeUseCase;
 import org.springframework.samples.petclinic.domain.model.Owner;
 import org.springframework.samples.petclinic.domain.model.Pet;
 import org.springframework.samples.petclinic.domain.model.PetType;
 import org.springframework.samples.petclinic.infrastructure.persistence.mapper.OwnerMapper;
 import org.springframework.samples.petclinic.infrastructure.persistence.mapper.PetMapper;
 import org.springframework.samples.petclinic.infrastructure.persistence.mapper.PetTypeMapper;
-import org.springframework.samples.petclinic.web.controller.PetController;
 import org.springframework.samples.petclinic.web.formatting.PetTypeFormatter;
 import org.springframework.test.context.aot.DisabledInAotMode;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -72,13 +71,13 @@ class PetControllerTests {
 	private MockMvc mockMvc;
 
 	@MockitoBean
-	private OwnerService ownerService;
+	private OwnerUseCase ownerService;
 
 	@MockitoBean
-	private PetService petService;
+	private PetUseCase petService;
 
 	@MockitoBean
-	private PetTypeService petTypeService;
+	private PetTypeUseCase petTypeService;
 
 	@MockitoBean
 	private OwnerMapper ownerMapper;

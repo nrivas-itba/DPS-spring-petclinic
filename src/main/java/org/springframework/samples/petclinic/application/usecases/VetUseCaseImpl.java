@@ -13,32 +13,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.samples.petclinic.application.service.interfaces;
+package org.springframework.samples.petclinic.application.usecases;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.samples.petclinic.application.usecases.interfaces.VetUseCase;
 import org.springframework.samples.petclinic.domain.model.Vet;
+import org.springframework.samples.petclinic.domain.repository.VetRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 
 /**
- * Service interface for managing veterinarians.
+ * Service implementation for managing veterinarians.
  *
  * @author Wick Dynex
  */
-public interface VetService {
+@Service
+@Transactional(readOnly = true)
+public class VetUseCaseImpl implements VetUseCase {
 
-	/**
-	 * Find all veterinarians.
-	 * @return collection of veterinarians
-	 */
-	Collection<Vet> findAll();
+	private final VetRepository vetRepository;
 
-	/**
-	 * Find all veterinarians with pagination.
-	 * @param pageable pagination information
-	 * @return page of veterinarians
-	 */
-	Page<Vet> findAll(Pageable pageable);
+	public VetUseCaseImpl(VetRepository vetRepository) {
+		this.vetRepository = vetRepository;
+	}
+
+	@Override
+	public Collection<Vet> findAll() {
+		return vetRepository.findAll();
+	}
+
+	@Override
+	public Page<Vet> findAll(Pageable pageable) {
+		return vetRepository.findAll(pageable);
+	}
 
 }

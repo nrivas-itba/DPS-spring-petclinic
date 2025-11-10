@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.samples.petclinic.application.service.interfaces;
+package org.springframework.samples.petclinic.application.usecases.interfaces;
 
 import org.springframework.samples.petclinic.domain.model.Owner;
 import org.springframework.samples.petclinic.domain.model.Pet;
@@ -25,7 +25,7 @@ import java.time.LocalDate;
  *
  * @author Wick Dynex
  */
-public interface PetService {
+public interface PetUseCase {
 
 	/**
 	 * Create a new pet for an owner.

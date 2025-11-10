@@ -25,7 +25,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
-import org.springframework.samples.petclinic.application.service.interfaces.VetService;
+import org.springframework.samples.petclinic.application.usecases.interfaces.VetUseCase;
 import org.springframework.samples.petclinic.domain.model.Vet;
 import org.springframework.samples.petclinic.infrastructure.persistence.mapper.VetMapper;
 import org.springframework.samples.petclinic.web.controller.VetController;
@@ -53,7 +53,7 @@ class VetControllerTests {
 	private MockMvc mockMvc;
 
 	@MockitoBean
-	private VetService vetService;
+	private VetUseCase vetService;
 
 	@MockitoBean
 	private VetMapper vetMapper;

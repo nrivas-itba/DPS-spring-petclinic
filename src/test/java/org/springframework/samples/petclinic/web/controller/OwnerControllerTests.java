@@ -24,13 +24,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.samples.petclinic.application.service.interfaces.OwnerService;
+import org.springframework.samples.petclinic.application.usecases.interfaces.OwnerUseCase;
 import org.springframework.samples.petclinic.domain.model.Owner;
 import org.springframework.samples.petclinic.domain.model.Pet;
 import org.springframework.samples.petclinic.domain.model.PetType;
 import org.springframework.samples.petclinic.domain.model.Visit;
 import org.springframework.samples.petclinic.infrastructure.persistence.mapper.OwnerMapper;
-import org.springframework.samples.petclinic.web.controller.OwnerController;
 import org.springframework.test.context.aot.DisabledInAotMode;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -71,7 +70,7 @@ class OwnerControllerTests {
 	private MockMvc mockMvc;
 
 	@MockitoBean
-	private OwnerService ownerService;
+	private OwnerUseCase ownerService;
 
 	@MockitoBean
 	private OwnerMapper ownerMapper;

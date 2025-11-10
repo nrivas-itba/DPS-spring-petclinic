@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.samples.petclinic.application.service.interfaces;
+package org.springframework.samples.petclinic.application.usecases.interfaces;
 
 import org.springframework.samples.petclinic.domain.model.PetType;
 
@@ -24,7 +24,7 @@ import java.util.List;
  *
  * @author Wick Dynex
  */
-public interface PetTypeService {
+public interface PetTypeUseCase {
 
 	/**
 	 * Find all pet types.

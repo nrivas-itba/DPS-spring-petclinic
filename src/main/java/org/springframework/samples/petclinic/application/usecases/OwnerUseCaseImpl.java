@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.samples.petclinic.application.service;
+package org.springframework.samples.petclinic.application.usecases;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.samples.petclinic.application.exception.OwnerNotFoundException;
-import org.springframework.samples.petclinic.application.service.interfaces.OwnerService;
+import org.springframework.samples.petclinic.application.usecases.interfaces.OwnerUseCase;
 import org.springframework.samples.petclinic.domain.model.Owner;
 import org.springframework.samples.petclinic.domain.repository.OwnerRepository;
 import org.springframework.stereotype.Service;
@@ -31,11 +31,11 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional(readOnly = true)
-public class OwnerServiceImpl implements OwnerService {
+public class OwnerUseCaseImpl implements OwnerUseCase {
 
 	private final OwnerRepository ownerRepository;
 
-	public OwnerServiceImpl(OwnerRepository ownerRepository) {
+	public OwnerUseCaseImpl(OwnerRepository ownerRepository) {
 		this.ownerRepository = ownerRepository;
 	}
 

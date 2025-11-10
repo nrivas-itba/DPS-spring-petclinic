@@ -13,34 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.samples.petclinic.application.service;
+package org.springframework.samples.petclinic.application.usecases;
 
-import org.springframework.samples.petclinic.application.service.interfaces.PetTypeService;
-import org.springframework.samples.petclinic.domain.model.PetType;
-import org.springframework.samples.petclinic.domain.repository.PetTypeRepository;
+import org.springframework.samples.petclinic.application.usecases.interfaces.VisitUseCase;
+import org.springframework.samples.petclinic.domain.model.Owner;
+import org.springframework.samples.petclinic.domain.model.Visit;
+import org.springframework.samples.petclinic.domain.repository.OwnerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 /**
- * Service implementation for managing pet types.
+ * Service implementation for managing visits.
  *
  * @author Wick Dynex
  */
 @Service
 @Transactional(readOnly = true)
-public class PetTypeServiceImpl implements PetTypeService {
+public class VisitUseCaseImpl implements VisitUseCase {
 
-	private final PetTypeRepository petTypeRepository;
+	private final OwnerRepository ownerRepository;
 
-	public PetTypeServiceImpl(PetTypeRepository petTypeRepository) {
-		this.petTypeRepository = petTypeRepository;
+	public VisitUseCaseImpl(OwnerRepository ownerRepository) {
+		this.ownerRepository = ownerRepository;
 	}
 
 	@Override
-	public List<PetType> findAll() {
-		return petTypeRepository.findAll();
+	@Transactional
+	public Owner createVisit(Owner owner, Integer petId, Visit visit) {
+		owner.addVisit(petId, visit);
+		return ownerRepository.save(owner);
 	}
 
 }

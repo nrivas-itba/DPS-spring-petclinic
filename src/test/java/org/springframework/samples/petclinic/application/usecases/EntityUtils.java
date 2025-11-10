@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.springframework.samples.petclinic.application.service;
+package org.springframework.samples.petclinic.application.usecases;
 
 import org.springframework.orm.ObjectRetrievalFailureException;
 import org.springframework.samples.petclinic.infrastructure.persistence.entity.BaseEntity;
