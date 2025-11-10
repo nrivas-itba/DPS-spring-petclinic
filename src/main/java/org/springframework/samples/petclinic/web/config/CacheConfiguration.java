@@ -30,7 +30,7 @@ import javax.cache.configuration.MutableConfiguration;
  */
 @Configuration(proxyBeanMethods = false)
 @EnableCaching
-class CacheConfiguration {
+public class CacheConfiguration {
 
 	@Bean
 	public JCacheManagerCustomizer petclinicCacheConfigurationCustomizer() {
