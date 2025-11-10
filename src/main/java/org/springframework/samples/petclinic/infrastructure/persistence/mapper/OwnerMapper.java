@@ -66,10 +66,9 @@ public class OwnerMapper {
 		jpa.setAddress(domain.getAddress());
 		jpa.setCity(domain.getCity());
 		jpa.setTelephone(domain.getTelephone());
-		domain.getPets().forEach(pet -> {
-			org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Pet petJpa = petMapper.toJpa(pet);
-			jpa.addPet(petJpa);
-		});
+		jpa.getPets().addAll(domain.getPets().stream()
+			.map(petMapper::toJpa)
+			.collect(Collectors.toList()));
 		return jpa;
 	}
 
