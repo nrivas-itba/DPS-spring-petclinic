@@ -51,43 +51,43 @@ public class Owner extends PersonEntity {
 
 	@Column(name = "address")
 	@NotBlank
-	private @Nullable String address;
+	private String address;
 
 	@Column(name = "city")
 	@NotBlank
-	private @Nullable String city;
+	private String city;
 
 	@Column(name = "telephone")
 	@NotBlank
 	@Pattern(regexp = "\\d{10}", message = "{telephone.invalid}")
-	private @Nullable String telephone;
+	private String telephone;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "owner_id")
 	@OrderBy("name")
 	private final List<Pet> pets = new ArrayList<>();
 
-	public @Nullable String getAddress() {
+	public String getAddress() {
 		return this.address;
 	}
 
-	public void setAddress(@Nullable String address) {
+	public void setAddress(String address) {
 		this.address = address;
 	}
 
-	public @Nullable String getCity() {
+	public String getCity() {
 		return this.city;
 	}
 
-	public void setCity(@Nullable String city) {
+	public void setCity(String city) {
 		this.city = city;
 	}
 
-	public @Nullable String getTelephone() {
+	public String getTelephone() {
 		return this.telephone;
 	}
 
-	public void setTelephone(@Nullable String telephone) {
+	public void setTelephone(String telephone) {
 		this.telephone = telephone;
 	}
 

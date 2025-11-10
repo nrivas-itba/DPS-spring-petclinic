@@ -28,35 +28,35 @@ import org.jspecify.annotations.Nullable;
  */
 public class Owner extends PersonDomainEntity {
 
-	private @Nullable String address;
+	private String address;
 
-	private @Nullable String city;
+	private String city;
 
-	private @Nullable String telephone;
+	private String telephone;
 
 	private final List<Pet> pets = new ArrayList<>();
 
-	public @Nullable String getAddress() {
+	public String getAddress() {
 		return this.address;
 	}
 
-	public void setAddress(@Nullable String address) {
+	public void setAddress(String address) {
 		this.address = address;
 	}
 
-	public @Nullable String getCity() {
+	public String getCity() {
 		return this.city;
 	}
 
-	public void setCity(@Nullable String city) {
+	public void setCity(String city) {
 		this.city = city;
 	}
 
-	public @Nullable String getTelephone() {
+	public String getTelephone() {
 		return this.telephone;
 	}
 
-	public void setTelephone(@Nullable String telephone) {
+	public void setTelephone(String telephone) {
 		this.telephone = telephone;
 	}
 

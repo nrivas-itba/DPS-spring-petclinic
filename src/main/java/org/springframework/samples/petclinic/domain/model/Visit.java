@@ -17,8 +17,6 @@ package org.springframework.samples.petclinic.domain.model;
 
 import java.time.LocalDate;
 
-import org.jspecify.annotations.Nullable;
-
 /**
  * Domain entity representing a visit.
  *
@@ -26,9 +24,9 @@ import org.jspecify.annotations.Nullable;
  */
 public class Visit extends BaseDomainEntity {
 
-	private @Nullable LocalDate date;
+	private LocalDate date;
 
-	private @Nullable String description;
+	private String description;
 
 	/**
 	 * Creates a new instance of Visit for the current date
@@ -37,19 +35,19 @@ public class Visit extends BaseDomainEntity {
 		this.date = LocalDate.now();
 	}
 
-	public @Nullable LocalDate getDate() {
+	public LocalDate getDate() {
 		return this.date;
 	}
 
-	public void setDate(@Nullable LocalDate date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
 
-	public @Nullable String getDescription() {
+	public String getDescription() {
 		return this.description;
 	}
 
-	public void setDescription(@Nullable String description) {
+	public void setDescription(String description) {
 		this.description = description;
 	}
 

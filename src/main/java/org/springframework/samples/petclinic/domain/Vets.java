@@ -20,7 +20,6 @@ import java.util.List;
 
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import org.jspecify.annotations.Nullable;
 import org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet;
 
 /**
@@ -32,13 +31,10 @@ import org.springframework.samples.petclinic.infrastructure.persistence.entity.v
 @XmlRootElement
 public class Vets {
 
-	private @Nullable List<Vet> vets;
+	private List<Vet> vets = new ArrayList<>();
 
 	@XmlElement
 	public List<Vet> getVetList() {
-		if (vets == null) {
-			vets = new ArrayList<>();
-		}
 		return vets;
 	}
 

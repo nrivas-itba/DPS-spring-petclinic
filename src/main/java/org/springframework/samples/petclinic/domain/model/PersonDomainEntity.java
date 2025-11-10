@@ -15,8 +15,6 @@
  */
 package org.springframework.samples.petclinic.domain.model;
 
-import org.jspecify.annotations.Nullable;
-
 /**
  * Domain entity representing a person.
  *
@@ -24,23 +22,23 @@ import org.jspecify.annotations.Nullable;
  */
 public class PersonDomainEntity extends BaseDomainEntity {
 
-	private @Nullable String firstName;
+	private String firstName;
 
-	private @Nullable String lastName;
+	private String lastName;
 
-	public @Nullable String getFirstName() {
+	public String getFirstName() {
 		return this.firstName;
 	}
 
-	public void setFirstName(@Nullable String firstName) {
+	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
-	public @Nullable String getLastName() {
+	public String getLastName() {
 		return this.lastName;
 	}
 
-	public void setLastName(@Nullable String lastName) {
+	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
 

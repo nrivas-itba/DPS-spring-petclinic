@@ -19,8 +19,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jspecify.annotations.Nullable;
-
 /**
  * Domain entity representing a pet.
  *
@@ -28,25 +26,25 @@ import org.jspecify.annotations.Nullable;
  */
 public class Pet extends NamedDomainEntity {
 
-	private @Nullable LocalDate birthDate;
+	private LocalDate birthDate;
 
-	private @Nullable PetType type;
+	private PetType type;
 
 	private final List<Visit> visits = new ArrayList<>();
 
-	public @Nullable LocalDate getBirthDate() {
+	public LocalDate getBirthDate() {
 		return this.birthDate;
 	}
 
-	public void setBirthDate(@Nullable LocalDate birthDate) {
+	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
 
-	public @Nullable PetType getType() {
+	public PetType getType() {
 		return this.type;
 	}
 
-	public void setType(@Nullable PetType type) {
+	public void setType(PetType type) {
 		this.type = type;
 	}
 

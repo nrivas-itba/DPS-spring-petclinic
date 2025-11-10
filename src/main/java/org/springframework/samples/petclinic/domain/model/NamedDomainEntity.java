@@ -15,8 +15,6 @@
  */
 package org.springframework.samples.petclinic.domain.model;
 
-import org.jspecify.annotations.Nullable;
-
 /**
  * Domain entity with a name property.
  *
@@ -24,13 +22,13 @@ import org.jspecify.annotations.Nullable;
  */
 public class NamedDomainEntity extends BaseDomainEntity {
 
-	private @Nullable String name;
+	private String name;
 
-	public @Nullable String getName() {
+	public String getName() {
 		return this.name;
 	}
 
-	public void setName(@Nullable String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
