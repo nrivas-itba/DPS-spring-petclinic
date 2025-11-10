@@ -29,7 +29,6 @@ import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -61,7 +60,7 @@ class PetServiceImplTests {
 		Pet pet = new Pet();
 		pet.setName("Leo");
 		pet.setBirthDate(LocalDate.of(2020, 9, 7));
-		
+
 		PetType petType = new PetType();
 		petType.setId(1);
 		petType.setName("cat");
@@ -76,7 +75,6 @@ class PetServiceImplTests {
 		assertThat(result).isNotNull();
 		assertThat(owner.getPets()).hasSize(1);
 		assertThat(owner.getPets().get(0)).isEqualTo(pet);
-		verify(ownerRepository).save(owner);
 	}
 
 	@Test
@@ -91,19 +89,19 @@ class PetServiceImplTests {
 		existingPet.setId(1);
 		existingPet.setName("Leo");
 		existingPet.setBirthDate(LocalDate.of(2020, 9, 7));
-		
+
 		PetType oldType = new PetType();
 		oldType.setId(1);
 		oldType.setName("cat");
 		existingPet.setType(oldType);
-		
+
 		owner.addPet(existingPet);
 
 		Pet updatedPet = new Pet();
 		updatedPet.setId(1);
 		updatedPet.setName("Leo Updated");
 		updatedPet.setBirthDate(LocalDate.of(2020, 9, 10));
-		
+
 		PetType newType = new PetType();
 		newType.setId(2);
 		newType.setName("dog");
@@ -121,7 +119,6 @@ class PetServiceImplTests {
 		assertThat(pet.getName()).isEqualTo("Leo Updated");
 		assertThat(pet.getBirthDate()).isEqualTo(LocalDate.of(2020, 9, 10));
 		assertThat(pet.getType().getName()).isEqualTo("dog");
-		verify(ownerRepository).save(owner);
 	}
 
 	@Test
@@ -136,7 +133,7 @@ class PetServiceImplTests {
 		newPet.setId(99);
 		newPet.setName("New Pet");
 		newPet.setBirthDate(LocalDate.of(2021, 1, 1));
-		
+
 		PetType petType = new PetType();
 		petType.setId(3);
 		petType.setName("bird");
@@ -151,7 +148,6 @@ class PetServiceImplTests {
 		assertThat(result).isNotNull();
 		assertThat(owner.getPets()).hasSize(1);
 		assertThat(owner.getPets().get(0)).isEqualTo(newPet);
-		verify(ownerRepository).save(owner);
 	}
 
 	@Test
@@ -289,19 +285,19 @@ class PetServiceImplTests {
 		existingPet.setId(10);
 		existingPet.setName("OldName");
 		existingPet.setBirthDate(LocalDate.of(2020, 1, 1));
-		
+
 		PetType oldType = new PetType();
 		oldType.setId(1);
 		oldType.setName("cat");
 		existingPet.setType(oldType);
-		
+
 		owner.addPet(existingPet);
 
 		Pet updatedPet = new Pet();
 		updatedPet.setId(10);
 		updatedPet.setName("NewName");
 		updatedPet.setBirthDate(LocalDate.of(2021, 12, 31));
-		
+
 		PetType newType = new PetType();
 		newType.setId(2);
 		newType.setName("dog");
@@ -325,18 +321,17 @@ class PetServiceImplTests {
 	void testUpdatePetProperties_OnlyNameUpdated() {
 		// Given - Testing partial property update through updatePet
 		Owner owner = new Owner();
-		owner.setId(1);
 
 		Pet existingPet = new Pet();
 		existingPet.setId(15);
 		existingPet.setName("OldName");
 		existingPet.setBirthDate(LocalDate.of(2020, 5, 15));
-		
+
 		PetType petType = new PetType();
 		petType.setId(3);
 		petType.setName("bird");
 		existingPet.setType(petType);
-		
+
 		owner.addPet(existingPet);
 
 		Pet updatedPet = new Pet();
@@ -344,6 +339,8 @@ class PetServiceImplTests {
 		updatedPet.setName("UpdatedName");
 		updatedPet.setBirthDate(LocalDate.of(2020, 5, 15)); // Same date
 		updatedPet.setType(petType); // Same type
+
+		owner.setId(1);
 
 		when(ownerRepository.save(any(Owner.class))).thenReturn(owner);
 

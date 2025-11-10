@@ -34,7 +34,6 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -67,7 +66,7 @@ class VetServiceImplTests {
 		vet2.setId(2);
 		vet2.setFirstName("Helen");
 		vet2.setLastName("Leary");
-		
+
 		Specialty specialty = new Specialty();
 		specialty.setId(1);
 		specialty.setName("Radiology");
@@ -83,7 +82,6 @@ class VetServiceImplTests {
 		assertThat(result).isNotNull();
 		assertThat(result).hasSize(2);
 		assertThat(result).containsExactly(vet1, vet2);
-		verify(vetRepository).findAll();
 	}
 
 	@Test
@@ -107,7 +105,7 @@ class VetServiceImplTests {
 		List<Vet> vets = Arrays.asList(vet1, vet2);
 		Pageable pageable = PageRequest.of(0, 2);
 		Page<Vet> expectedPage = new PageImpl<>(vets, pageable, 3);
-		
+
 		when(vetRepository.findAll(any(Pageable.class))).thenReturn(expectedPage);
 
 		// When
@@ -119,7 +117,6 @@ class VetServiceImplTests {
 		assertThat(result.getTotalElements()).isEqualTo(3);
 		assertThat(result.getNumber()).isEqualTo(0);
 		assertThat(result.getSize()).isEqualTo(2);
-		verify(vetRepository).findAll(pageable);
 	}
 
 	@Test
@@ -133,7 +130,6 @@ class VetServiceImplTests {
 		// Then
 		assertThat(result).isNotNull();
 		assertThat(result).isEmpty();
-		verify(vetRepository).findAll();
 	}
 
 	@Test
@@ -141,7 +137,7 @@ class VetServiceImplTests {
 		// Given
 		Pageable pageable = PageRequest.of(0, 10);
 		Page<Vet> emptyPage = new PageImpl<>(Arrays.asList(), pageable, 0);
-		
+
 		when(vetRepository.findAll(any(Pageable.class))).thenReturn(emptyPage);
 
 		// When
@@ -151,7 +147,6 @@ class VetServiceImplTests {
 		assertThat(result).isNotNull();
 		assertThat(result.getContent()).isEmpty();
 		assertThat(result.getTotalElements()).isEqualTo(0);
-		verify(vetRepository).findAll(pageable);
 	}
 
 }

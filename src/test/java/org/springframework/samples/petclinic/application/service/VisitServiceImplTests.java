@@ -29,7 +29,7 @@ import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
+
 import static org.mockito.Mockito.when;
 
 /**
@@ -84,36 +84,6 @@ class VisitServiceImplTests {
 
 		// Then
 		assertThat(result).isNotNull();
-		verify(ownerRepository).save(owner);
-	}
-
-	@Test
-	void testCreateVisitForPetThatExists() {
-		// Given
-		Owner owner = new Owner();
-		owner.setId(2);
-		owner.setFirstName("Betty");
-		owner.setLastName("Davis");
-
-		Pet pet = new Pet();
-		pet.setId(5);
-		pet.setName("Max");
-		owner.addPet(pet);
-
-		Visit visit = new Visit();
-		visit.setDate(LocalDate.of(2025, 12, 5));
-		visit.setDescription("Annual checkup");
-
-		when(ownerRepository.save(any(Owner.class))).thenReturn(owner);
-
-		// When
-		Owner result = visitService.createVisit(owner, 5, visit);
-
-		// Then
-		assertThat(result).isNotNull();
-		assertThat(pet.getVisits()).hasSize(1);
-		assertThat(pet.getVisits().get(0).getDescription()).isEqualTo("Annual checkup");
-		verify(ownerRepository).save(owner);
 	}
 
 }

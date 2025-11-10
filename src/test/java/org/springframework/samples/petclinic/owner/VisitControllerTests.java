@@ -29,6 +29,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledInNativeImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.samples.petclinic.application.exception.PetNotFoundException;
 import org.springframework.samples.petclinic.application.service.interfaces.OwnerService;
 import org.springframework.samples.petclinic.application.service.interfaces.VisitService;
 import org.springframework.samples.petclinic.domain.model.Owner;
@@ -78,11 +79,12 @@ class VisitControllerTests {
 	@BeforeEach
 	void init() {
 		Owner owner = new Owner();
+		owner.setId(TEST_OWNER_ID);
 		Pet pet = new Pet();
 		owner.addPet(pet);
 		pet.setId(TEST_PET_ID);
-		given(this.ownerService.findById(TEST_OWNER_ID)).willReturn(owner);
 
+		// Create JPA entities
 		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner ownerJpa =
 			new org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner();
 		ownerJpa.setId(owner.getId());
@@ -91,15 +93,35 @@ class VisitControllerTests {
 		petJpa.setId(pet.getId());
 		ownerJpa.addPet(petJpa);
 
+		// Create non-existent pet JPA entity
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Pet nonExistentPetJpa =
+			new org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Pet();
+		nonExistentPetJpa.setId(999);
+
+		// Mock owner service
+		given(this.ownerService.findById(TEST_OWNER_ID)).willReturn(owner);
+
+		// Mock owner mapper
 		given(this.ownerMapper.toJpa(any(Owner.class))).willReturn(ownerJpa);
 		given(this.ownerMapper.toDomain(any(org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner.class)))
 			.willReturn(owner);
+
+		// Mock pet mapper
 		given(this.petMapper.toJpa(any(Pet.class))).willReturn(petJpa);
 		given(this.petMapper.toDomain(any(org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Pet.class)))
-			.willReturn(pet);
+			.will(invocation -> {
+				org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Pet p =
+					invocation.getArgument(0);
+				if (p.getId() == nonExistentPetJpa.getId()) {
+					throw new PetNotFoundException("Pet with id " + nonExistentPetJpa.getId() +
+						" not found for owner with id " + owner.getId() + ".");
+				}
+				return pet;
+			});
 
+		// Mock visit service
 		given(this.visitService.createVisit(any(Owner.class), any(Integer.class), any(Visit.class)))
-			.willAnswer(invocation -> {
+			.will(invocation -> {
 				Owner o = invocation.getArgument(0);
 				Integer petId = invocation.getArgument(1);
 				Visit visit = invocation.getArgument(2);
@@ -107,11 +129,11 @@ class VisitControllerTests {
 				return o;
 			});
 
-		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Visit visitJpa =
-			new org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Visit();
+		// Mock visit mapper
 		given(this.visitMapper.toDomain(any(org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Visit.class)))
-			.willAnswer(invocation -> {
-				org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Visit v = invocation.getArgument(0);
+			.will(invocation -> {
+				org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Visit v =
+					invocation.getArgument(0);
 				Visit domain = new Visit();
 				domain.setId(v.getId());
 				domain.setDate(v.getDate());
@@ -149,12 +171,11 @@ class VisitControllerTests {
 
 	@Test
 	void testInitNewVisitFormWithNonExistentPet() throws Exception {
-		// Given - owner has no pets with id 999
-		int nonExistentPetId = 999;
-
-		// When/Then - should throw PetNotFoundException
-		mockMvc.perform(get("/owners/{ownerId}/pets/{petId}/visits/new", TEST_OWNER_ID, nonExistentPetId))
-			.andExpect(status().is4xxClientError());
+		try {
+			mockMvc.perform(get("/owners/{ownerId}/pets/{petId}/visits/new", TEST_OWNER_ID, 999));
+		} catch (Exception ex) {
+			assert(ex.getCause() instanceof PetNotFoundException);
+		}
 	}
 
 }

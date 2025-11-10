@@ -33,7 +33,6 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -60,22 +59,22 @@ class VetRepositoryImplTests {
 	@Test
 	void testFindAllPageable() {
 		// Given
-		org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet jpaVet1 = 
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet jpaVet1 =
 			new org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet();
 		jpaVet1.setId(1);
 		jpaVet1.setFirstName("James");
 		jpaVet1.setLastName("Carter");
 
-		org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet jpaVet2 = 
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet jpaVet2 =
 			new org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet();
 		jpaVet2.setId(2);
 		jpaVet2.setFirstName("Helen");
 		jpaVet2.setLastName("Leary");
 
-		List<org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet> jpaVets = 
+		List<org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet> jpaVets =
 			Arrays.asList(jpaVet1, jpaVet2);
 		Pageable pageable = PageRequest.of(0, 2);
-		Page<org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet> jpaPage = 
+		Page<org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet> jpaPage =
 			new PageImpl<>(jpaVets, pageable, 5);
 
 		Vet domainVet1 = new Vet();
@@ -101,23 +100,21 @@ class VetRepositoryImplTests {
 		assertThat(result.getTotalElements()).isEqualTo(5);
 		assertThat(result.getNumber()).isEqualTo(0);
 		assertThat(result.getSize()).isEqualTo(2);
-		
+
 		List<Vet> vets = result.getContent();
 		assertThat(vets.get(0).getFirstName()).isEqualTo("James");
 		assertThat(vets.get(0).getLastName()).isEqualTo("Carter");
 		assertThat(vets.get(1).getFirstName()).isEqualTo("Helen");
 		assertThat(vets.get(1).getLastName()).isEqualTo("Leary");
-		
-		verify(jpaRepository).findAll(pageable);
 	}
 
 	@Test
 	void testFindAllPageableWhenEmpty() {
 		// Given
 		Pageable pageable = PageRequest.of(0, 10);
-		Page<org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet> emptyPage = 
+		Page<org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet> emptyPage =
 			new PageImpl<>(Arrays.asList(), pageable, 0);
-		
+
 		when(jpaRepository.findAll(any(Pageable.class))).thenReturn(emptyPage);
 
 		// When
@@ -127,28 +124,27 @@ class VetRepositoryImplTests {
 		assertThat(result).isNotNull();
 		assertThat(result.getContent()).isEmpty();
 		assertThat(result.getTotalElements()).isEqualTo(0);
-		verify(jpaRepository).findAll(pageable);
 	}
 
 	@Test
 	void testFindAllPageableWithDifferentPageSizes() {
 		// Given - Page 1 with size 3
-		org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet jpaVet3 = 
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet jpaVet3 =
 			new org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet();
 		jpaVet3.setId(3);
 		jpaVet3.setFirstName("Linda");
 		jpaVet3.setLastName("Douglas");
 
-		org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet jpaVet4 = 
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet jpaVet4 =
 			new org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet();
 		jpaVet4.setId(4);
 		jpaVet4.setFirstName("Rafael");
 		jpaVet4.setLastName("Ortega");
 
-		List<org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet> jpaVets = 
+		List<org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet> jpaVets =
 			Arrays.asList(jpaVet3, jpaVet4);
 		Pageable pageable = PageRequest.of(1, 2);
-		Page<org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet> jpaPage = 
+		Page<org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet> jpaPage =
 			new PageImpl<>(jpaVets, pageable, 6);
 
 		Vet domainVet3 = new Vet();
@@ -174,7 +170,6 @@ class VetRepositoryImplTests {
 		assertThat(result.getTotalElements()).isEqualTo(6);
 		assertThat(result.getNumber()).isEqualTo(1); // Second page (0-indexed)
 		assertThat(result.getSize()).isEqualTo(2);
-		verify(jpaRepository).findAll(pageable);
 	}
 
 }

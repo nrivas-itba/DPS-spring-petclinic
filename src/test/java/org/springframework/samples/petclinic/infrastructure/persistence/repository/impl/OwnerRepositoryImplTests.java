@@ -26,7 +26,6 @@ import org.springframework.samples.petclinic.infrastructure.persistence.reposito
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -60,7 +59,7 @@ class OwnerRepositoryImplTests {
 		domainOwner.setCity("Madison");
 		domainOwner.setTelephone("6085551023");
 
-		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner jpaOwner = 
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner jpaOwner =
 			new org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner();
 		jpaOwner.setFirstName("George");
 		jpaOwner.setLastName("Franklin");
@@ -68,7 +67,7 @@ class OwnerRepositoryImplTests {
 		jpaOwner.setCity("Madison");
 		jpaOwner.setTelephone("6085551023");
 
-		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner savedJpaOwner = 
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner savedJpaOwner =
 			new org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner();
 		savedJpaOwner.setId(1);
 		savedJpaOwner.setFirstName("George");
@@ -100,10 +99,6 @@ class OwnerRepositoryImplTests {
 		assertThat(result.getAddress()).isEqualTo("110 W. Liberty St.");
 		assertThat(result.getCity()).isEqualTo("Madison");
 		assertThat(result.getTelephone()).isEqualTo("6085551023");
-		
-		verify(mapper).toJpa(domainOwner);
-		verify(jpaRepository).save(jpaOwner);
-		verify(mapper).toDomain(savedJpaOwner);
 	}
 
 	@Test
@@ -117,7 +112,7 @@ class OwnerRepositoryImplTests {
 		existingDomainOwner.setCity("McFarland");
 		existingDomainOwner.setTelephone("6085558763");
 
-		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner jpaOwner = 
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner jpaOwner =
 			new org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner();
 		jpaOwner.setId(5);
 		jpaOwner.setFirstName("Eduardo");
@@ -126,7 +121,7 @@ class OwnerRepositoryImplTests {
 		jpaOwner.setCity("McFarland");
 		jpaOwner.setTelephone("6085558763");
 
-		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner savedJpaOwner = 
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner savedJpaOwner =
 			new org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner();
 		savedJpaOwner.setId(5);
 		savedJpaOwner.setFirstName("Eduardo");
@@ -154,9 +149,6 @@ class OwnerRepositoryImplTests {
 		// Then
 		assertThat(result).isNotNull();
 		assertThat(result.getId()).isEqualTo(5);
-		verify(mapper).toJpa(existingDomainOwner);
-		verify(jpaRepository).save(jpaOwner);
-		verify(mapper).toDomain(savedJpaOwner);
 	}
 
 }

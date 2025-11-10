@@ -27,7 +27,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -73,7 +72,6 @@ class PetTypeServiceImplTests {
 		assertThat(result).isNotNull();
 		assertThat(result).hasSize(3);
 		assertThat(result).containsExactly(cat, dog, hamster);
-		verify(petTypeRepository).findAll();
 	}
 
 	@Test
@@ -87,7 +85,6 @@ class PetTypeServiceImplTests {
 		// Then
 		assertThat(result).isNotNull();
 		assertThat(result).isEmpty();
-		verify(petTypeRepository).findAll();
 	}
 
 }

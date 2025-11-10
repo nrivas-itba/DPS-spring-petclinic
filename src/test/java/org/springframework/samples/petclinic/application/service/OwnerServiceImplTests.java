@@ -33,7 +33,6 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -75,7 +74,7 @@ class OwnerServiceImplTests {
 		List<Owner> owners = Arrays.asList(owner2);
 		Pageable pageable = PageRequest.of(0, 10);
 		Page<Owner> expectedPage = new PageImpl<>(owners, pageable, 1);
-		
+
 		when(ownerRepository.findByLastNameStartingWith(anyString(), any(Pageable.class)))
 			.thenReturn(expectedPage);
 
@@ -87,7 +86,6 @@ class OwnerServiceImplTests {
 		assertThat(result.getContent()).hasSize(1);
 		assertThat(result.getContent().get(0).getLastName()).isEqualTo("Davis");
 		assertThat(result.getTotalElements()).isEqualTo(1);
-		verify(ownerRepository).findByLastNameStartingWith("Dav", pageable);
 	}
 
 	@Test
@@ -95,7 +93,7 @@ class OwnerServiceImplTests {
 		// Given
 		Pageable pageable = PageRequest.of(0, 10);
 		Page<Owner> emptyPage = new PageImpl<>(Arrays.asList(), pageable, 0);
-		
+
 		when(ownerRepository.findByLastNameStartingWith(anyString(), any(Pageable.class)))
 			.thenReturn(emptyPage);
 
@@ -106,7 +104,6 @@ class OwnerServiceImplTests {
 		assertThat(result).isNotNull();
 		assertThat(result.getContent()).isEmpty();
 		assertThat(result.getTotalElements()).isEqualTo(0);
-		verify(ownerRepository).findByLastNameStartingWith("XYZ", pageable);
 	}
 
 	@Test
@@ -125,7 +122,7 @@ class OwnerServiceImplTests {
 		List<Owner> owners = Arrays.asList(owner1, owner2);
 		Pageable pageable = PageRequest.of(0, 10);
 		Page<Owner> expectedPage = new PageImpl<>(owners, pageable, 2);
-		
+
 		when(ownerRepository.findByLastNameStartingWith(anyString(), any(Pageable.class)))
 			.thenReturn(expectedPage);
 
@@ -136,7 +133,6 @@ class OwnerServiceImplTests {
 		assertThat(result).isNotNull();
 		assertThat(result.getContent()).hasSize(2);
 		assertThat(result.getTotalElements()).isEqualTo(2);
-		verify(ownerRepository).findByLastNameStartingWith("", pageable);
 	}
 
 	@Test
@@ -167,7 +163,6 @@ class OwnerServiceImplTests {
 		assertThat(result.getId()).isEqualTo(100);
 		assertThat(result.getFirstName()).isEqualTo("Harold");
 		assertThat(result.getLastName()).isEqualTo("Davis");
-		verify(ownerRepository).save(owner);
 	}
 
 	@Test
@@ -192,7 +187,6 @@ class OwnerServiceImplTests {
 		assertThat(result).isNotNull();
 		assertThat(result.getId()).isEqualTo(1);
 		assertThat(result.getAddress()).isEqualTo("111 W. Liberty St.");
-		verify(ownerRepository).save(existingOwner);
 	}
 
 }

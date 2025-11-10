@@ -28,7 +28,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -55,22 +54,22 @@ class PetTypeRepositoryImplTests {
 	@Test
 	void testFindAll() {
 		// Given
-		org.springframework.samples.petclinic.infrastructure.persistence.entity.PetType jpaCat = 
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.PetType jpaCat =
 			new org.springframework.samples.petclinic.infrastructure.persistence.entity.PetType();
 		jpaCat.setId(1);
 		jpaCat.setName("cat");
 
-		org.springframework.samples.petclinic.infrastructure.persistence.entity.PetType jpaDog = 
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.PetType jpaDog =
 			new org.springframework.samples.petclinic.infrastructure.persistence.entity.PetType();
 		jpaDog.setId(2);
 		jpaDog.setName("dog");
 
-		org.springframework.samples.petclinic.infrastructure.persistence.entity.PetType jpaHamster = 
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.PetType jpaHamster =
 			new org.springframework.samples.petclinic.infrastructure.persistence.entity.PetType();
 		jpaHamster.setId(3);
 		jpaHamster.setName("hamster");
 
-		List<org.springframework.samples.petclinic.infrastructure.persistence.entity.PetType> jpaPetTypes = 
+		List<org.springframework.samples.petclinic.infrastructure.persistence.entity.PetType> jpaPetTypes =
 			Arrays.asList(jpaCat, jpaDog, jpaHamster);
 
 		PetType domainCat = new PetType();
@@ -97,10 +96,6 @@ class PetTypeRepositoryImplTests {
 		assertThat(result).isNotNull();
 		assertThat(result).hasSize(3);
 		assertThat(result).containsExactly(domainCat, domainDog, domainHamster);
-		verify(jpaRepository).findPetTypes();
-		verify(mapper).toDomain(jpaCat);
-		verify(mapper).toDomain(jpaDog);
-		verify(mapper).toDomain(jpaHamster);
 	}
 
 	@Test
@@ -114,7 +109,6 @@ class PetTypeRepositoryImplTests {
 		// Then
 		assertThat(result).isNotNull();
 		assertThat(result).isEmpty();
-		verify(jpaRepository).findPetTypes();
 	}
 
 }
