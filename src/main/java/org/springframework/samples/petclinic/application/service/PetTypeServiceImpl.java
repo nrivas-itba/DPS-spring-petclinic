@@ -15,6 +15,7 @@
  */
 package org.springframework.samples.petclinic.application.service;
 
+import org.springframework.samples.petclinic.application.service.interfaces.PetTypeService;
 import org.springframework.samples.petclinic.domain.model.PetType;
 import org.springframework.samples.petclinic.domain.repository.PetTypeRepository;
 import org.springframework.stereotype.Service;

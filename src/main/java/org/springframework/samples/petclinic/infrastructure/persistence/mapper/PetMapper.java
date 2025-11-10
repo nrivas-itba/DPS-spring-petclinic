@@ -39,9 +39,6 @@ public class PetMapper {
 	}
 
 	public Pet toDomain(org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Pet jpa) {
-		if (jpa == null) {
-			return null;
-		}
 		Pet domain = new Pet();
 		domain.setId(jpa.getId());
 		domain.setName(jpa.getName());
@@ -54,10 +51,7 @@ public class PetMapper {
 	}
 
 	public org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Pet toJpa(Pet domain) {
-		if (domain == null) {
-			return null;
-		}
-		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Pet jpa = 
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Pet jpa =
 			new org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Pet();
 		jpa.setId(domain.getId());
 		jpa.setName(domain.getName());

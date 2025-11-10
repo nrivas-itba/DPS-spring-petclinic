@@ -13,23 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.samples.petclinic.application.service;
+package org.springframework.samples.petclinic.application.service.interfaces;
 
-import org.springframework.samples.petclinic.domain.model.PetType;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.samples.petclinic.domain.model.Vet;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
- * Service interface for managing pet types.
+ * Service interface for managing veterinarians.
  *
  * @author Wick Dynex
  */
-public interface PetTypeService {
+public interface VetService {
 
 	/**
-	 * Find all pet types.
-	 * @return list of pet types
+	 * Find all veterinarians.
+	 * @return collection of veterinarians
 	 */
-	List<PetType> findAll();
+	Collection<Vet> findAll();
+
+	/**
+	 * Find all veterinarians with pagination.
+	 * @param pageable pagination information
+	 * @return page of veterinarians
+	 */
+	Page<Vet> findAll(Pageable pageable);
 
 }

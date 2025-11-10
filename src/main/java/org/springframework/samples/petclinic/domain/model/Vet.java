@@ -37,9 +37,6 @@ public class Vet extends PersonDomainEntity {
 			.collect(Collectors.toList());
 	}
 
-	public int getNrOfSpecialties() {
-		return specialties.size();
-	}
 
 	public void addSpecialty(Specialty specialty) {
 		specialties.add(specialty);

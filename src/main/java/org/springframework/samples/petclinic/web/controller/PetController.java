@@ -18,9 +18,9 @@ package org.springframework.samples.petclinic.web.controller;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-import org.springframework.samples.petclinic.application.service.OwnerService;
-import org.springframework.samples.petclinic.application.service.PetService;
-import org.springframework.samples.petclinic.application.service.PetTypeService;
+import org.springframework.samples.petclinic.application.service.interfaces.OwnerService;
+import org.springframework.samples.petclinic.application.service.interfaces.PetService;
+import org.springframework.samples.petclinic.application.service.interfaces.PetTypeService;
 import org.springframework.samples.petclinic.domain.model.Owner;
 import org.springframework.samples.petclinic.domain.model.Pet;
 import org.springframework.samples.petclinic.infrastructure.persistence.mapper.OwnerMapper;

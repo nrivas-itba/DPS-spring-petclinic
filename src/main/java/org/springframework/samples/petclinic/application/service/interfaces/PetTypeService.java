@@ -13,25 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.samples.petclinic.application.service;
+package org.springframework.samples.petclinic.application.service.interfaces;
 
-import org.springframework.samples.petclinic.domain.model.Owner;
-import org.springframework.samples.petclinic.domain.model.Visit;
+import org.springframework.samples.petclinic.domain.model.PetType;
+
+import java.util.List;
 
 /**
- * Service interface for managing visits.
+ * Service interface for managing pet types.
  *
  * @author Wick Dynex
  */
-public interface VisitService {
+public interface PetTypeService {
 
 	/**
-	 * Create a visit for a pet.
-	 * @param owner the owner
-	 * @param petId the pet ID
-	 * @param visit the visit to create
-	 * @return the saved owner
+	 * Find all pet types.
+	 * @return list of pet types
 	 */
-	Owner createVisit(Owner owner, Integer petId, Visit visit);
+	List<PetType> findAll();
 
 }

@@ -27,9 +27,6 @@ import org.springframework.stereotype.Component;
 public class VisitMapper {
 
 	public Visit toDomain(org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Visit jpa) {
-		if (jpa == null) {
-			return null;
-		}
 		Visit domain = new Visit();
 		domain.setId(jpa.getId());
 		domain.setDate(jpa.getDate());
@@ -38,10 +35,7 @@ public class VisitMapper {
 	}
 
 	public org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Visit toJpa(Visit domain) {
-		if (domain == null) {
-			return null;
-		}
-		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Visit jpa = 
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Visit jpa =
 			new org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Visit();
 		jpa.setId(domain.getId());
 		jpa.setDate(domain.getDate());

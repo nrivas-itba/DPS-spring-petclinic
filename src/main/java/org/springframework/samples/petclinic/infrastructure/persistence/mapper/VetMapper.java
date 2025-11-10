@@ -36,9 +36,6 @@ public class VetMapper {
 	}
 
 	public Vet toDomain(org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet jpa) {
-		if (jpa == null) {
-			return null;
-		}
 		Vet domain = new Vet();
 		domain.setId(jpa.getId());
 		domain.setFirstName(jpa.getFirstName());
@@ -50,10 +47,7 @@ public class VetMapper {
 	}
 
 	public org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet toJpa(Vet domain) {
-		if (domain == null) {
-			return null;
-		}
-		org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet jpa = 
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet jpa =
 			new org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet();
 		jpa.setId(domain.getId());
 		jpa.setFirstName(domain.getFirstName());

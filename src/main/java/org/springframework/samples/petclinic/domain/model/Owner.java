@@ -71,15 +71,6 @@ public class Owner extends PersonDomainEntity {
 	}
 
 	/**
-	 * Return the Pet with the given name, or null if none found for this Owner.
-	 * @param name to test
-	 * @return the Pet with the given name, or null if no such Pet exists for this Owner
-	 */
-	public @Nullable Pet getPet(String name) {
-		return getPet(name, false);
-	}
-
-	/**
 	 * Return the Pet with the given id, or null if none found for this Owner.
 	 * @param id to test
 	 * @return the Pet with the given id, or null if no such Pet exists for this Owner

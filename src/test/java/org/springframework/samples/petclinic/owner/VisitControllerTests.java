@@ -29,8 +29,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledInNativeImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.samples.petclinic.application.service.OwnerService;
-import org.springframework.samples.petclinic.application.service.VisitService;
+import org.springframework.samples.petclinic.application.service.interfaces.OwnerService;
+import org.springframework.samples.petclinic.application.service.interfaces.VisitService;
 import org.springframework.samples.petclinic.domain.model.Owner;
 import org.springframework.samples.petclinic.domain.model.Pet;
 import org.springframework.samples.petclinic.domain.model.Visit;
@@ -83,10 +83,10 @@ class VisitControllerTests {
 		pet.setId(TEST_PET_ID);
 		given(this.ownerService.findById(TEST_OWNER_ID)).willReturn(owner);
 
-		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner ownerJpa = 
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner ownerJpa =
 			new org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner();
 		ownerJpa.setId(owner.getId());
-		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Pet petJpa = 
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Pet petJpa =
 			new org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Pet();
 		petJpa.setId(pet.getId());
 		ownerJpa.addPet(petJpa);
@@ -107,7 +107,7 @@ class VisitControllerTests {
 				return o;
 			});
 
-		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Visit visitJpa = 
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Visit visitJpa =
 			new org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Visit();
 		given(this.visitMapper.toDomain(any(org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Visit.class)))
 			.willAnswer(invocation -> {
@@ -145,6 +145,16 @@ class VisitControllerTests {
 			.andExpect(model().attributeHasErrors("visit"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("pets/createOrUpdateVisitForm"));
+	}
+
+	@Test
+	void testInitNewVisitFormWithNonExistentPet() throws Exception {
+		// Given - owner has no pets with id 999
+		int nonExistentPetId = 999;
+
+		// When/Then - should throw PetNotFoundException
+		mockMvc.perform(get("/owners/{ownerId}/pets/{petId}/visits/new", TEST_OWNER_ID, nonExistentPetId))
+			.andExpect(status().is4xxClientError());
 	}
 
 }

@@ -16,13 +16,12 @@
 package org.springframework.samples.petclinic.web.formatting;
 
 import org.springframework.format.Formatter;
-import org.springframework.samples.petclinic.application.service.PetTypeService;
+import org.springframework.samples.petclinic.application.service.interfaces.PetTypeService;
 import org.springframework.samples.petclinic.infrastructure.persistence.entity.PetType;
 import org.springframework.samples.petclinic.infrastructure.persistence.mapper.PetTypeMapper;
 import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
-import java.util.Collection;
 import java.util.Locale;
 import java.util.Objects;
 

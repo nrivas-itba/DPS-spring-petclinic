@@ -15,6 +15,7 @@
  */
 package org.springframework.samples.petclinic.application.service;
 
+import org.springframework.samples.petclinic.application.service.interfaces.PetService;
 import org.springframework.samples.petclinic.domain.model.Owner;
 import org.springframework.samples.petclinic.domain.model.Pet;
 import org.springframework.samples.petclinic.domain.repository.OwnerRepository;
@@ -54,7 +55,7 @@ public class PetServiceImpl implements PetService {
 			.filter(existingPet -> Objects.equals(existingPet.getId(), pet.getId()))
 			.findFirst()
 			.ifPresentOrElse(
-				existingPet -> updatePetProperties(existingPet, pet),
+				existingPet -> updatePetProperties(existingPet, pet),//TODO: add TEST
 				() -> owner.addPet(pet)
 			);
 
@@ -80,7 +81,7 @@ public class PetServiceImpl implements PetService {
 		return !birthDate.isAfter(currentDate);
 	}
 
-	private void updatePetProperties(Pet existingPet, Pet pet) {
+	private void updatePetProperties(Pet existingPet, Pet pet) {//TODO: add TEST
 		existingPet.setName(pet.getName());
 		existingPet.setBirthDate(pet.getBirthDate());
 		existingPet.setType(pet.getType());

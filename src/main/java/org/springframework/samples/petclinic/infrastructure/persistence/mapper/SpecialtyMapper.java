@@ -27,9 +27,6 @@ import org.springframework.stereotype.Component;
 public class SpecialtyMapper {
 
 	public Specialty toDomain(org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Specialty jpa) {
-		if (jpa == null) {
-			return null;
-		}
 		Specialty domain = new Specialty();
 		domain.setId(jpa.getId());
 		domain.setName(jpa.getName());
@@ -37,10 +34,7 @@ public class SpecialtyMapper {
 	}
 
 	public org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Specialty toJpa(Specialty domain) {
-		if (domain == null) {
-			return null;
-		}
-		org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Specialty jpa = 
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Specialty jpa =
 			new org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Specialty();
 		jpa.setId(domain.getId());
 		jpa.setName(domain.getName());

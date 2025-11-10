@@ -37,9 +37,6 @@ public class OwnerMapper {
 
 	public org.springframework.samples.petclinic.domain.model.Owner toDomain(
 			org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner jpa) {
-		if (jpa == null) {
-			return null;
-		}
 		org.springframework.samples.petclinic.domain.model.Owner domain = new org.springframework.samples.petclinic.domain.model.Owner();
 		domain.setId(jpa.getId());
 		domain.setFirstName(jpa.getFirstName());
@@ -55,9 +52,6 @@ public class OwnerMapper {
 
 	public org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner toJpa(
 			org.springframework.samples.petclinic.domain.model.Owner domain) {
-		if (domain == null) {
-			return null;
-		}
 		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner jpa =
 			new org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner();
 		jpa.setId(domain.getId());

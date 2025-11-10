@@ -15,6 +15,7 @@
  */
 package org.springframework.samples.petclinic.application.service;
 
+import org.springframework.samples.petclinic.application.service.interfaces.VisitService;
 import org.springframework.samples.petclinic.domain.model.Owner;
 import org.springframework.samples.petclinic.domain.model.Visit;
 import org.springframework.samples.petclinic.domain.repository.OwnerRepository;

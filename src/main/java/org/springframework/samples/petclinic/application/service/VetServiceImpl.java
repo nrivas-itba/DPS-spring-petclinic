@@ -17,6 +17,7 @@ package org.springframework.samples.petclinic.application.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.samples.petclinic.application.service.interfaces.VetService;
 import org.springframework.samples.petclinic.domain.model.Vet;
 import org.springframework.samples.petclinic.domain.repository.VetRepository;
 import org.springframework.stereotype.Service;

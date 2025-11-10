@@ -18,6 +18,7 @@ package org.springframework.samples.petclinic.application.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.samples.petclinic.application.exception.OwnerNotFoundException;
+import org.springframework.samples.petclinic.application.service.interfaces.OwnerService;
 import org.springframework.samples.petclinic.domain.model.Owner;
 import org.springframework.samples.petclinic.domain.repository.OwnerRepository;
 import org.springframework.stereotype.Service;

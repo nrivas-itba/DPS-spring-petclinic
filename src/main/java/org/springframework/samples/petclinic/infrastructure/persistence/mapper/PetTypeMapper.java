@@ -27,9 +27,6 @@ import org.springframework.stereotype.Component;
 public class PetTypeMapper {
 
 	public PetType toDomain(org.springframework.samples.petclinic.infrastructure.persistence.entity.PetType jpa) {
-		if (jpa == null) {
-			return null;
-		}
 		PetType domain = new PetType();
 		domain.setId(jpa.getId());
 		domain.setName(jpa.getName());
@@ -37,10 +34,7 @@ public class PetTypeMapper {
 	}
 
 	public org.springframework.samples.petclinic.infrastructure.persistence.entity.PetType toJpa(PetType domain) {
-		if (domain == null) {
-			return null;
-		}
-		org.springframework.samples.petclinic.infrastructure.persistence.entity.PetType jpa = 
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.PetType jpa =
 			new org.springframework.samples.petclinic.infrastructure.persistence.entity.PetType();
 		jpa.setId(domain.getId());
 		jpa.setName(domain.getName());
