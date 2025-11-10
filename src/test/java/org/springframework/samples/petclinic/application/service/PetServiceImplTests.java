@@ -86,7 +86,6 @@ class PetServiceImplTests {
 		owner.setLastName("Franklin");
 
 		Pet existingPet = new Pet();
-		existingPet.setId(1);
 		existingPet.setName("Leo");
 		existingPet.setBirthDate(LocalDate.of(2020, 9, 7));
 
@@ -96,6 +95,7 @@ class PetServiceImplTests {
 		existingPet.setType(oldType);
 
 		owner.addPet(existingPet);
+		existingPet.setId(1);
 
 		Pet updatedPet = new Pet();
 		updatedPet.setId(1);
@@ -130,7 +130,6 @@ class PetServiceImplTests {
 		owner.setLastName("Franklin");
 
 		Pet newPet = new Pet();
-		newPet.setId(99);
 		newPet.setName("New Pet");
 		newPet.setBirthDate(LocalDate.of(2021, 1, 1));
 
@@ -143,6 +142,7 @@ class PetServiceImplTests {
 
 		// When
 		Owner result = petService.updatePet(owner, newPet);
+		newPet.setId(99);
 
 		// Then
 		assertThat(result).isNotNull();
@@ -175,9 +175,9 @@ class PetServiceImplTests {
 		owner.setId(1);
 
 		Pet existingPet = new Pet();
-		existingPet.setId(1);
 		existingPet.setName("Leo");
 		owner.addPet(existingPet);
+		existingPet.setId(1);
 
 		// When
 		boolean result = petService.isPetNameUniqueForOwner(owner, "Leo", 2);
@@ -193,9 +193,9 @@ class PetServiceImplTests {
 		owner.setId(1);
 
 		Pet existingPet = new Pet();
-		existingPet.setId(1);
 		existingPet.setName("Leo");
 		owner.addPet(existingPet);
+		existingPet.setId(1);
 
 		// When
 		boolean result = petService.isPetNameUniqueForOwner(owner, "Leo", 1);
@@ -282,7 +282,7 @@ class PetServiceImplTests {
 		owner.setId(1);
 
 		Pet existingPet = new Pet();
-		existingPet.setId(10);
+
 		existingPet.setName("OldName");
 		existingPet.setBirthDate(LocalDate.of(2020, 1, 1));
 
@@ -292,6 +292,7 @@ class PetServiceImplTests {
 		existingPet.setType(oldType);
 
 		owner.addPet(existingPet);
+		existingPet.setId(10);
 
 		Pet updatedPet = new Pet();
 		updatedPet.setId(10);
@@ -323,7 +324,6 @@ class PetServiceImplTests {
 		Owner owner = new Owner();
 
 		Pet existingPet = new Pet();
-		existingPet.setId(15);
 		existingPet.setName("OldName");
 		existingPet.setBirthDate(LocalDate.of(2020, 5, 15));
 
@@ -333,6 +333,7 @@ class PetServiceImplTests {
 		existingPet.setType(petType);
 
 		owner.addPet(existingPet);
+		existingPet.setId(15);
 
 		Pet updatedPet = new Pet();
 		updatedPet.setId(15);
