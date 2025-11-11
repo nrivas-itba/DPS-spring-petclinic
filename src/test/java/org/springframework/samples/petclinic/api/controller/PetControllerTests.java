@@ -33,7 +33,7 @@ import org.springframework.samples.petclinic.domain.entity.PetType;
 import org.springframework.samples.petclinic.infrastructure.persistence.mapper.OwnerMapper;
 import org.springframework.samples.petclinic.infrastructure.persistence.mapper.PetMapper;
 import org.springframework.samples.petclinic.infrastructure.persistence.mapper.PetTypeMapper;
-import org.springframework.samples.petclinic.api.formatting.PetTypeFormatter;
+import org.springframework.samples.petclinic.api.mapper.PetTypeFormatter;
 import org.springframework.test.context.aot.DisabledInAotMode;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;

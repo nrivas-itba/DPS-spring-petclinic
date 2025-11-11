@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.samples.petclinic.api.formatting;
+package org.springframework.samples.petclinic.api.mapper;
 
 import org.springframework.format.Formatter;
 import org.springframework.samples.petclinic.domain.usecase.PetTypeUseCase;
