@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledInNativeImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.samples.petclinic.application.exception.PetNotFoundException;
+import org.springframework.samples.petclinic.domain.exception.PetNotFoundException;
 import org.springframework.samples.petclinic.domain.usecase.OwnerUseCase;
 import org.springframework.samples.petclinic.domain.usecase.VisitUseCase;
 import org.springframework.samples.petclinic.domain.entity.Owner;

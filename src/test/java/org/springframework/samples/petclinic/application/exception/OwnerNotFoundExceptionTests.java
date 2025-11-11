@@ -16,6 +16,7 @@
 package org.springframework.samples.petclinic.application.exception;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.samples.petclinic.domain.exception.OwnerNotFoundException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

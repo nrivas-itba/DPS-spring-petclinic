@@ -17,7 +17,7 @@ package org.springframework.samples.petclinic.api.controller;
 
 import java.util.Map;
 
-import org.springframework.samples.petclinic.application.exception.PetNotFoundException;
+import org.springframework.samples.petclinic.domain.exception.PetNotFoundException;
 import org.springframework.samples.petclinic.domain.usecase.OwnerUseCase;
 import org.springframework.samples.petclinic.domain.usecase.VisitUseCase;
 import org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Pet;

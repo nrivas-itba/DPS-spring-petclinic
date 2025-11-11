@@ -18,6 +18,7 @@ package org.springframework.samples.petclinic.domain.usecase;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.samples.petclinic.domain.entity.Owner;
+import org.springframework.samples.petclinic.domain.exception.OwnerNotFoundException;
 
 /**
  * Service interface for managing owners.
@@ -30,7 +31,7 @@ public interface OwnerUseCase {
 	 * Find an owner by ID.
 	 * @param id the owner ID
 	 * @return the owner
-	 * @throws org.springframework.samples.petclinic.application.exception.OwnerNotFoundException if owner not found
+	 * @throws OwnerNotFoundException if owner not found
 	 */
 	Owner findById(Integer id);
 

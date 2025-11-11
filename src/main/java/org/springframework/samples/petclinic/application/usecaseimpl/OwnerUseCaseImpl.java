@@ -17,7 +17,7 @@ package org.springframework.samples.petclinic.application.usecaseimpl;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.samples.petclinic.application.exception.OwnerNotFoundException;
+import org.springframework.samples.petclinic.domain.exception.OwnerNotFoundException;
 import org.springframework.samples.petclinic.domain.usecase.OwnerUseCase;
 import org.springframework.samples.petclinic.domain.entity.Owner;
 import org.springframework.samples.petclinic.domain.gateway.OwnerRepository;
