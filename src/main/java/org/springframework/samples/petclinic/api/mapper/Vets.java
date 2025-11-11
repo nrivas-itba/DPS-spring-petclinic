@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.samples.petclinic.domain;
+package org.springframework.samples.petclinic.api.mapper;
 
 import java.util.ArrayList;
 import java.util.List;
