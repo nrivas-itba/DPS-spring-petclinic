@@ -21,36 +21,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.samples.petclinic.domain.entity.Owner;
 
-/**
- * Repository interface for Owner domain objects.
- * This interface is independent of JPA and can be implemented by any persistence technology.
- *
- * @author Wick Dynex
- */
+
 public interface OwnerRepository {
 
-	/**
-	 * Retrieve {@link Owner}s from the data store by last name, returning all owners
-	 * whose last name <i>starts</i> with the given name.
-	 * @param lastName Value to search for
-	 * @param pageable pagination information
-	 * @return a Page of matching {@link Owner}s
-	 */
 	Page<Owner> findByLastNameStartingWith(String lastName, Pageable pageable);
 
-	/**
-	 * Retrieve an {@link Owner} from the data store by id.
-	 * @param id the id to search for
-	 * @return an {@link Optional} containing the {@link Owner} if found, or an empty
-	 * {@link Optional} if not found.
-	 */
 	Optional<Owner> findById(Integer id);
 
-	/**
-	 * Save an owner.
-	 * @param owner the owner to save
-	 * @return the saved owner
-	 */
 	Owner save(Owner owner);
 
 }

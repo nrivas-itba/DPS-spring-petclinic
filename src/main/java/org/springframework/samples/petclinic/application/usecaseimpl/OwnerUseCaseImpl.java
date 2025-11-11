@@ -24,11 +24,7 @@ import org.springframework.samples.petclinic.domain.gateway.OwnerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Service implementation for managing owners.
- *
- * @author Wick Dynex
- */
+
 @Service
 @Transactional(readOnly = true)
 public class OwnerUseCaseImpl implements OwnerUseCase {

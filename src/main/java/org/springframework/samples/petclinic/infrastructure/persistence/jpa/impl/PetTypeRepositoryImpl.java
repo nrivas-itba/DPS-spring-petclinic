@@ -24,11 +24,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * JPA implementation of PetTypeRepository.
- *
- * @author Wick Dynex
- */
+
 @Repository
 public class PetTypeRepositoryImpl implements PetTypeRepository {
 

@@ -25,12 +25,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 
-/**
- * Simple JavaBean domain object representing a visit.
- *
- * @author Ken Krebs
- * @author Dave Syer
- */
+
 @Entity
 @Table(name = "visits")
 public class Visit extends BaseEntity {
@@ -42,9 +37,7 @@ public class Visit extends BaseEntity {
 	@NotBlank
 	private String description;
 
-	/**
-	 * Creates a new instance of Visit for the current date
-	 */
+
 	public Visit() {
 		this.date = LocalDate.now();
 	}

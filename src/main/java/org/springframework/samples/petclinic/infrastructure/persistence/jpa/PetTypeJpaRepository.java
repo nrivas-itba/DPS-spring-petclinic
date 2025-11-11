@@ -22,18 +22,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.samples.petclinic.infrastructure.persistence.entity.PetType;
 
-/**
- * Spring Data JPA repository for PetType entities.
- * This is an internal interface used only by the JPA implementation.
- *
- * @author Wick Dynex
- */
+
 public interface PetTypeJpaRepository extends JpaRepository<PetType, Integer> {
 
-	/**
-	 * Retrieve all {@link PetType}s from the data store.
-	 * @return a Collection of {@link PetType}s.
-	 */
 	@Query("SELECT ptype FROM PetType ptype ORDER BY ptype.name")
 	List<PetType> findPetTypes();
 

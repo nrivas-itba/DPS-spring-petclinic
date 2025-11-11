@@ -34,14 +34,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 
-/**
- * Simple business object representing a pet.
- *
- * @author Ken Krebs
- * @author Juergen Hoeller
- * @author Sam Brannen
- * @author Wick Dynex
- */
+
 @Entity
 @Table(name = "pets")
 public class Pet extends NamedEntity {

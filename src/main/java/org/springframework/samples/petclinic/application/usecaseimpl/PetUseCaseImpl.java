@@ -26,11 +26,7 @@ import org.springframework.util.StringUtils;
 import java.time.LocalDate;
 import java.util.Objects;
 
-/**
- * Service implementation for managing pets.
- *
- * @author Wick Dynex
- */
+
 @Service
 @Transactional(readOnly = true)
 public class PetUseCaseImpl implements PetUseCase {

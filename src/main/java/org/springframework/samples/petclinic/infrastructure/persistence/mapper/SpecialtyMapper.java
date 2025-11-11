@@ -18,11 +18,7 @@ package org.springframework.samples.petclinic.infrastructure.persistence.mapper;
 import org.springframework.samples.petclinic.domain.entity.Specialty;
 import org.springframework.stereotype.Component;
 
-/**
- * Mapper between Specialty domain entities and JPA entities.
- *
- * @author Wick Dynex
- */
+
 @Component
 public class SpecialtyMapper {
 

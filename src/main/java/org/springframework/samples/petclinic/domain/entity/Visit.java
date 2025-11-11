@@ -17,20 +17,14 @@ package org.springframework.samples.petclinic.domain.entity;
 
 import java.time.LocalDate;
 
-/**
- * Domain entity representing a visit.
- *
- * @author Wick Dynex
- */
+
 public class Visit extends BaseDomainEntity {
 
 	private LocalDate date;
 
 	private String description;
 
-	/**
-	 * Creates a new instance of Visit for the current date
-	 */
+
 	public Visit() {
 		this.date = LocalDate.now();
 	}

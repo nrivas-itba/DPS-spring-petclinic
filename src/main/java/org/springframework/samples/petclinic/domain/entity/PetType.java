@@ -15,11 +15,7 @@
  */
 package org.springframework.samples.petclinic.domain.entity;
 
-/**
- * Domain entity representing a pet type.
- *
- * @author Wick Dynex
- */
+
 public class PetType extends NamedDomainEntity {
 
 }

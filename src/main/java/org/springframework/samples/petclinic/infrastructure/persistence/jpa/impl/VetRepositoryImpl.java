@@ -28,11 +28,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-/**
- * JPA implementation of VetRepository.
- *
- * @author Wick Dynex
- */
 @Repository
 public class VetRepositoryImpl implements VetRepository {
 

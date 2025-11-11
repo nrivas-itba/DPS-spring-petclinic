@@ -21,24 +21,10 @@ import org.springframework.samples.petclinic.domain.entity.Vet;
 
 import java.util.Collection;
 
-/**
- * Service interface for managing veterinarians.
- *
- * @author Wick Dynex
- */
 public interface VetUseCase {
 
-	/**
-	 * Find all veterinarians.
-	 * @return collection of veterinarians
-	 */
 	Collection<Vet> findAll();
 
-	/**
-	 * Find all veterinarians with pagination.
-	 * @param pageable pagination information
-	 * @return page of veterinarians
-	 */
 	Page<Vet> findAll(Pageable pageable);
 
 }

@@ -18,11 +18,6 @@ package org.springframework.samples.petclinic.infrastructure.persistence.mapper;
 import org.springframework.samples.petclinic.domain.entity.Visit;
 import org.springframework.stereotype.Component;
 
-/**
- * Mapper between Visit domain entities and JPA entities.
- *
- * @author Wick Dynex
- */
 @Component
 public class VisitMapper {
 

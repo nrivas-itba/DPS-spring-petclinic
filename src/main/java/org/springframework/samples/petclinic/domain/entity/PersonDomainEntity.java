@@ -15,11 +15,7 @@
  */
 package org.springframework.samples.petclinic.domain.entity;
 
-/**
- * Domain entity representing a person.
- *
- * @author Wick Dynex
- */
+
 public class PersonDomainEntity extends BaseDomainEntity {
 
 	private String firstName;

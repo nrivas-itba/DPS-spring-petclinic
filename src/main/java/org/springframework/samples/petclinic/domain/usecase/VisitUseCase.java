@@ -18,20 +18,8 @@ package org.springframework.samples.petclinic.domain.usecase;
 import org.springframework.samples.petclinic.domain.entity.Owner;
 import org.springframework.samples.petclinic.domain.entity.Visit;
 
-/**
- * Service interface for managing visits.
- *
- * @author Wick Dynex
- */
 public interface VisitUseCase {
 
-	/**
-	 * Create a visit for a pet.
-	 * @param owner the owner
-	 * @param petId the pet ID
-	 * @param visit the visit to create
-	 * @return the saved owner
-	 */
 	Owner createVisit(Owner owner, Integer petId, Visit visit);
 
 }

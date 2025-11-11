@@ -15,11 +15,7 @@
  */
 package org.springframework.samples.petclinic.domain.entity;
 
-/**
- * Domain entity representing a specialty.
- *
- * @author Wick Dynex
- */
+
 public class Specialty extends NamedDomainEntity {
 
 }

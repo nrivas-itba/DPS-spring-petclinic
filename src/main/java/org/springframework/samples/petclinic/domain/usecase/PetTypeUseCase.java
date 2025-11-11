@@ -19,17 +19,8 @@ import org.springframework.samples.petclinic.domain.entity.PetType;
 
 import java.util.List;
 
-/**
- * Service interface for managing pet types.
- *
- * @author Wick Dynex
- */
 public interface PetTypeUseCase {
 
-	/**
-	 * Find all pet types.
-	 * @return list of pet types
-	 */
 	List<PetType> findAll();
 
 }

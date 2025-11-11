@@ -20,18 +20,8 @@ import java.util.List;
 
 import org.springframework.samples.petclinic.domain.entity.PetType;
 
-/**
- * Repository interface for PetType domain objects.
- * This interface is independent of JPA and can be implemented by any persistence technology.
- *
- * @author Wick Dynex
- */
 public interface PetTypeRepository {
 
-	/**
-	 * Retrieve all {@link PetType}s from the data store.
-	 * @return a List of {@link PetType}s.
-	 */
 	List<PetType> findAll();
 
 }

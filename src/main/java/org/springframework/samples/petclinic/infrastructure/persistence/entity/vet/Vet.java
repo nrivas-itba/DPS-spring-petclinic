@@ -32,14 +32,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.xml.bind.annotation.XmlElement;
 
-/**
- * Simple JavaBean domain object representing a veterinarian.
- *
- * @author Ken Krebs
- * @author Juergen Hoeller
- * @author Sam Brannen
- * @author Arjen Poutsma
- */
+
 @Entity
 @Table(name = "vets")
 public class Vet extends PersonEntity {

@@ -15,11 +15,7 @@
  */
 package org.springframework.samples.petclinic.domain.exception;
 
-/**
- * Exception thrown when an owner is not found.
- *
- * @author Wick Dynex
- */
+
 public class OwnerNotFoundException extends RuntimeException {
 
 	public OwnerNotFoundException(String message) {

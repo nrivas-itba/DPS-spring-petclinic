@@ -41,13 +41,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jakarta.validation.Valid;
 import org.jspecify.annotations.Nullable;
 
-/**
- * @author Juergen Hoeller
- * @author Ken Krebs
- * @author Arjen Poutsma
- * @author Michael Isvy
- * @author Wick Dynex
- */
 @Controller
 public class OwnerController {
 

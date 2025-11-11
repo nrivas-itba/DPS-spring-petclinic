@@ -20,11 +20,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Domain entity representing a veterinarian.
- *
- * @author Wick Dynex
- */
+
 public class Vet extends PersonDomainEntity {
 
 	private List<Specialty> specialties = new ArrayList<>();

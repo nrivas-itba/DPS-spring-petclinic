@@ -15,11 +15,7 @@
  */
 package org.springframework.samples.petclinic.domain.entity;
 
-/**
- * Domain entity with a name property.
- *
- * @author Wick Dynex
- */
+
 public class NamedDomainEntity extends BaseDomainEntity {
 
 	private String name;

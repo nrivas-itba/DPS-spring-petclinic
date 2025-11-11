@@ -21,25 +21,10 @@ import org.springframework.samples.petclinic.domain.entity.Vet;
 
 import java.util.Collection;
 
-/**
- * Repository interface for Vet domain objects.
- * This interface is independent of JPA and can be implemented by any persistence technology.
- *
- * @author Wick Dynex
- */
 public interface VetRepository {
 
-	/**
-	 * Retrieve all <code>Vet</code>s from the data store.
-	 * @return a <code>Collection</code> of <code>Vet</code>s
-	 */
 	Collection<Vet> findAll();
 
-	/**
-	 * Retrieve all <code>Vet</code>s from data store in Pages
-	 * @param pageable pagination information
-	 * @return page of veterinarians
-	 */
 	Page<Vet> findAll(Pageable pageable);
 
 }

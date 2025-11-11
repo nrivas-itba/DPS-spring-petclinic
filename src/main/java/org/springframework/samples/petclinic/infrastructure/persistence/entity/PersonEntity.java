@@ -19,11 +19,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.NotBlank;
 
-/**
- * Simple JavaBean domain object representing an person.
- *
- * @author Ken Krebs
- */
 @MappedSuperclass
 public class PersonEntity extends BaseEntity {
 

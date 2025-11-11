@@ -25,11 +25,7 @@ import org.springframework.samples.petclinic.infrastructure.persistence.mapper.O
 import org.springframework.samples.petclinic.infrastructure.persistence.jpa.OwnerJpaRepository;
 import org.springframework.stereotype.Repository;
 
-/**
- * JPA implementation of OwnerRepository.
- *
- * @author Wick Dynex
- */
+
 @Repository
 public class OwnerRepositoryImpl implements OwnerRepository {
 

@@ -20,34 +20,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.samples.petclinic.domain.entity.Owner;
 import org.springframework.samples.petclinic.domain.exception.OwnerNotFoundException;
 
-/**
- * Service interface for managing owners.
- *
- * @author Wick Dynex
- */
 public interface OwnerUseCase {
 
-	/**
-	 * Find an owner by ID.
-	 * @param id the owner ID
-	 * @return the owner
-	 * @throws OwnerNotFoundException if owner not found
-	 */
 	Owner findById(Integer id);
 
-	/**
-	 * Find owners by last name (starting with).
-	 * @param lastName the last name prefix
-	 * @param pageable pagination information
-	 * @return page of owners
-	 */
 	Page<Owner> findByLastNameStartingWith(String lastName, Pageable pageable);
 
-	/**
-	 * Save an owner.
-	 * @param owner the owner to save
-	 * @return the saved owner
-	 */
 	Owner save(Owner owner);
 
 }

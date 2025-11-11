@@ -15,11 +15,7 @@
  */
 package org.springframework.samples.petclinic.domain.entity;
 
-/**
- * Base domain entity with an id property.
- *
- * @author Wick Dynex
- */
+
 public class BaseDomainEntity {
 
 	private Integer id;

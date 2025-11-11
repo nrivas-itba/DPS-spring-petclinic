@@ -25,11 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 
-/**
- * Service implementation for managing veterinarians.
- *
- * @author Wick Dynex
- */
+
 @Service
 @Transactional(readOnly = true)
 public class VetUseCaseImpl implements VetUseCase {

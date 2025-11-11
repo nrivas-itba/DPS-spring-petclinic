@@ -21,11 +21,7 @@ import java.util.Objects;
 
 import org.jspecify.annotations.Nullable;
 
-/**
- * Domain entity representing an owner.
- *
- * @author Wick Dynex
- */
+
 public class Owner extends PersonDomainEntity {
 
 	private String address;
@@ -70,11 +66,7 @@ public class Owner extends PersonDomainEntity {
 		}
 	}
 
-	/**
-	 * Return the Pet with the given id, or null if none found for this Owner.
-	 * @param id to test
-	 * @return the Pet with the given id, or null if no such Pet exists for this Owner
-	 */
+
 	public @Nullable Pet getPet(Integer id) {
 		return getPets().stream()
 			.filter(pet -> !pet.isNew() && Objects.equals(pet.getId(), id))
@@ -82,12 +74,7 @@ public class Owner extends PersonDomainEntity {
 			.orElse(null);
 	}
 
-	/**
-	 * Return the Pet with the given name, or null if none found for this Owner.
-	 * @param name to test
-	 * @param ignoreNew whether to ignore new pets (pets that are not saved yet)
-	 * @return the Pet with the given name, or null if no such Pet exists for this Owner
-	 */
+
 	public @Nullable Pet getPet(String name, boolean ignoreNew) {
 		return getPets().stream()
 			.filter(pet -> {
@@ -98,11 +85,7 @@ public class Owner extends PersonDomainEntity {
 			.orElse(null);
 	}
 
-	/**
-	 * Adds the given {@link Visit} to the {@link Pet} with the given identifier.
-	 * @param petId the identifier of the {@link Pet}, must not be {@literal null}.
-	 * @param visit the visit to add, must not be {@literal null}.
-	 */
+
 	public void addVisit(Integer petId, Visit visit) {
 		Pet pet = getPet(petId);
 		if (pet != null) {

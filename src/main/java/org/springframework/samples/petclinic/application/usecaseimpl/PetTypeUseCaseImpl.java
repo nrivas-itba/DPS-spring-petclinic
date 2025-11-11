@@ -23,11 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-/**
- * Service implementation for managing pet types.
- *
- * @author Wick Dynex
- */
+
 @Service
 @Transactional(readOnly = true)
 public class PetTypeUseCaseImpl implements PetTypeUseCase {

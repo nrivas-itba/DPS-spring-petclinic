@@ -21,11 +21,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
-/**
- * Mapper between Pet domain entities and JPA entities.
- *
- * @author Wick Dynex
- */
+
 @Component
 public class PetMapper {
 

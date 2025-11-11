@@ -23,13 +23,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import org.jspecify.annotations.Nullable;
 
-/**
- * Simple JavaBean domain object with an id property. Used as a base class for objects
- * needing this property.
- *
- * @author Ken Krebs
- * @author Juergen Hoeller
- */
 @MappedSuperclass
 public class BaseEntity implements Serializable {
 

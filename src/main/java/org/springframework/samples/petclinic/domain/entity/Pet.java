@@ -19,11 +19,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Domain entity representing a pet.
- *
- * @author Wick Dynex
- */
+
 public class Pet extends NamedDomainEntity {
 
 	private LocalDate birthDate;

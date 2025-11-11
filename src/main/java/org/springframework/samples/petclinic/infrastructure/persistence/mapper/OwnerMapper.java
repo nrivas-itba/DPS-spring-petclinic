@@ -20,11 +20,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
-/**
- * Mapper between Owner domain entities and JPA entities.
- *
- * @author Wick Dynex
- */
+
 @Component
 public class OwnerMapper {
 

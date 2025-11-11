@@ -22,11 +22,6 @@ import org.springframework.samples.petclinic.domain.gateway.OwnerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Service implementation for managing visits.
- *
- * @author Wick Dynex
- */
 @Service
 @Transactional(readOnly = true)
 public class VisitUseCaseImpl implements VisitUseCase {

@@ -15,11 +15,7 @@
  */
 package org.springframework.samples.petclinic.domain.exception;
 
-/**
- * Exception thrown when a pet is not found.
- *
- * @author Wick Dynex
- */
+
 public class PetNotFoundException extends RuntimeException {
 
 	public PetNotFoundException(String message) {
