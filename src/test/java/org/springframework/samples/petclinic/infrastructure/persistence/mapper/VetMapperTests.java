@@ -17,8 +17,8 @@ package org.springframework.samples.petclinic.infrastructure.persistence.mapper;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.samples.petclinic.domain.model.Specialty;
-import org.springframework.samples.petclinic.domain.model.Vet;
+import org.springframework.samples.petclinic.domain.entity.Specialty;
+import org.springframework.samples.petclinic.domain.entity.Vet;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -90,13 +90,13 @@ class VetMapperTests {
 	@Test
 	void testToDomain() {
 		// Given
-		org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet jpaVet = 
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet jpaVet =
 			new org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Vet();
 		jpaVet.setId(3);
 		jpaVet.setFirstName("Linda");
 		jpaVet.setLastName("Douglas");
 
-		org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Specialty jpaSpecialty1 = 
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Specialty jpaSpecialty1 =
 			new org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Specialty();
 		jpaSpecialty1.setId(1);
 		jpaSpecialty1.setName("Dentistry");

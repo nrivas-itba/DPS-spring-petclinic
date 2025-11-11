@@ -17,7 +17,7 @@ package org.springframework.samples.petclinic.infrastructure.persistence.mapper;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.samples.petclinic.domain.model.Specialty;
+import org.springframework.samples.petclinic.domain.entity.Specialty;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -54,7 +54,7 @@ class SpecialtyMapperTests {
 	@Test
 	void testToDomain() {
 		// Given
-		org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Specialty jpaSpecialty = 
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Specialty jpaSpecialty =
 			new org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Specialty();
 		jpaSpecialty.setId(2);
 		jpaSpecialty.setName("Surgery");

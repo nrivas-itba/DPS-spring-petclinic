@@ -17,7 +17,7 @@ package org.springframework.samples.petclinic.infrastructure.persistence.mapper;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.samples.petclinic.domain.model.Visit;
+import org.springframework.samples.petclinic.domain.entity.Visit;
 
 import java.time.LocalDate;
 
@@ -40,7 +40,7 @@ class VisitMapperTests {
 	@Test
 	void testToDomain() {
 		// Given
-		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Visit jpaVisit = 
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Visit jpaVisit =
 			new org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Visit();
 		jpaVisit.setId(1);
 		jpaVisit.setDate(LocalDate.of(2025, 11, 10));
@@ -77,7 +77,7 @@ class VisitMapperTests {
 	@Test
 	void testToDomainWithNullDescription() {
 		// Given
-		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Visit jpaVisit = 
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Visit jpaVisit =
 			new org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Visit();
 		jpaVisit.setId(3);
 		jpaVisit.setDate(LocalDate.of(2025, 10, 15));

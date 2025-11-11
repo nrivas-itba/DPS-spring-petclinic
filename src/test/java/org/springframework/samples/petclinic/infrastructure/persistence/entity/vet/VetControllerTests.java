@@ -25,10 +25,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
-import org.springframework.samples.petclinic.application.usecases.interfaces.VetUseCase;
-import org.springframework.samples.petclinic.domain.model.Vet;
+import org.springframework.samples.petclinic.domain.usecase.VetUseCase;
+import org.springframework.samples.petclinic.domain.entity.Vet;
 import org.springframework.samples.petclinic.infrastructure.persistence.mapper.VetMapper;
-import org.springframework.samples.petclinic.web.controller.VetController;
+import org.springframework.samples.petclinic.api.controller.VetController;
 import org.springframework.test.context.aot.DisabledInAotMode;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -71,8 +71,8 @@ class VetControllerTests {
 		helen.setFirstName("Helen");
 		helen.setLastName("Leary");
 		helen.setId(2);
-		org.springframework.samples.petclinic.domain.model.Specialty radiology =
-			new org.springframework.samples.petclinic.domain.model.Specialty();
+		org.springframework.samples.petclinic.domain.entity.Specialty radiology =
+			new org.springframework.samples.petclinic.domain.entity.Specialty();
 		radiology.setId(1);
 		radiology.setName("radiology");
 		helen.addSpecialty(radiology);
@@ -96,8 +96,8 @@ class VetControllerTests {
 		helenJpa.setId(helen().getId());
 		helenJpa.setFirstName(helen().getFirstName());
 		helenJpa.setLastName(helen().getLastName());
-		org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Specialty radiologyJpa =
-			new org.springframework.samples.petclinic.infrastructure.persistence.entity.vet.Specialty();
+		Specialty radiologyJpa =
+			new Specialty();
 		radiologyJpa.setId(1);
 		radiologyJpa.setName("radiology");
 		helenJpa.addSpecialty(radiologyJpa);

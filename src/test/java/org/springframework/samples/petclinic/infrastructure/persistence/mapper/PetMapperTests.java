@@ -17,9 +17,9 @@ package org.springframework.samples.petclinic.infrastructure.persistence.mapper;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.samples.petclinic.domain.model.Pet;
-import org.springframework.samples.petclinic.domain.model.PetType;
-import org.springframework.samples.petclinic.domain.model.Visit;
+import org.springframework.samples.petclinic.domain.entity.Pet;
+import org.springframework.samples.petclinic.domain.entity.PetType;
+import org.springframework.samples.petclinic.domain.entity.Visit;
 
 import java.time.LocalDate;
 
@@ -140,13 +140,13 @@ class PetMapperTests {
 	@Test
 	void testToDomain() {
 		// Given
-		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Pet jpaPet = 
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Pet jpaPet =
 			new org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Pet();
 		jpaPet.setId(4);
 		jpaPet.setName("Rosy");
 		jpaPet.setBirthDate(LocalDate.of(2021, 4, 17));
 
-		org.springframework.samples.petclinic.infrastructure.persistence.entity.PetType jpaPetType = 
+		org.springframework.samples.petclinic.infrastructure.persistence.entity.PetType jpaPetType =
 			new org.springframework.samples.petclinic.infrastructure.persistence.entity.PetType();
 		jpaPetType.setId(4);
 		jpaPetType.setName("bird");

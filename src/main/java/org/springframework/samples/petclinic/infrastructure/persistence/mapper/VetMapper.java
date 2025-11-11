@@ -15,11 +15,8 @@
  */
 package org.springframework.samples.petclinic.infrastructure.persistence.mapper;
 
-import org.springframework.samples.petclinic.domain.model.Specialty;
-import org.springframework.samples.petclinic.domain.model.Vet;
+import org.springframework.samples.petclinic.domain.entity.Vet;
 import org.springframework.stereotype.Component;
-
-import java.util.stream.Collectors;
 
 /**
  * Mapper between Vet domain entities and JPA entities.

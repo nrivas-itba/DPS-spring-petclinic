@@ -15,8 +15,7 @@
  */
 package org.springframework.samples.petclinic.infrastructure.persistence.mapper;
 
-import org.springframework.samples.petclinic.domain.model.Owner;
-import org.springframework.samples.petclinic.domain.model.Pet;
+import org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
@@ -35,9 +34,9 @@ public class OwnerMapper {
 		this.petMapper = petMapper;
 	}
 
-	public org.springframework.samples.petclinic.domain.model.Owner toDomain(
-			org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner jpa) {
-		org.springframework.samples.petclinic.domain.model.Owner domain = new org.springframework.samples.petclinic.domain.model.Owner();
+	public org.springframework.samples.petclinic.domain.entity.Owner toDomain(
+			Owner jpa) {
+		org.springframework.samples.petclinic.domain.entity.Owner domain = new org.springframework.samples.petclinic.domain.entity.Owner();
 		domain.setId(jpa.getId());
 		domain.setFirstName(jpa.getFirstName());
 		domain.setLastName(jpa.getLastName());
@@ -50,10 +49,10 @@ public class OwnerMapper {
 		return domain;
 	}
 
-	public org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner toJpa(
-			org.springframework.samples.petclinic.domain.model.Owner domain) {
-		org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner jpa =
-			new org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner();
+	public Owner toJpa(
+			org.springframework.samples.petclinic.domain.entity.Owner domain) {
+		Owner jpa =
+			new Owner();
 		jpa.setId(domain.getId());
 		jpa.setFirstName(domain.getFirstName());
 		jpa.setLastName(domain.getLastName());

@@ -15,8 +15,8 @@
  */
 package org.springframework.samples.petclinic.infrastructure.persistence.mapper;
 
-import org.springframework.samples.petclinic.domain.model.Pet;
-import org.springframework.samples.petclinic.domain.model.Visit;
+import org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Visit;
+import org.springframework.samples.petclinic.domain.entity.Pet;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
@@ -58,7 +58,7 @@ public class PetMapper {
 		jpa.setBirthDate(domain.getBirthDate());
 		jpa.setType(petTypeMapper.toJpa(domain.getType()));
 		domain.getVisits().forEach(visit -> {
-			org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Visit visitJpa = visitMapper.toJpa(visit);
+			Visit visitJpa = visitMapper.toJpa(visit);
 			jpa.addVisit(visitJpa);
 		});
 		return jpa;

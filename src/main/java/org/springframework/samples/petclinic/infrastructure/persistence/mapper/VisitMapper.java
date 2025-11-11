@@ -15,7 +15,7 @@
  */
 package org.springframework.samples.petclinic.infrastructure.persistence.mapper;
 
-import org.springframework.samples.petclinic.domain.model.Visit;
+import org.springframework.samples.petclinic.domain.entity.Visit;
 import org.springframework.stereotype.Component;
 
 /**
