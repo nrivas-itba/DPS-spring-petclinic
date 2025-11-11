@@ -267,15 +267,6 @@ class PetUseCaseImplTests {
 	}
 
 	@Test
-	void testIsBirthDateValid_WhenNull() {
-		// When
-		boolean result = petService.isBirthDateValid(null);
-
-		// Then
-		assertThat(result).isTrue();
-	}
-
-	@Test
 	void testUpdatePetProperties_AllPropertiesUpdated() {
 		// Given - Testing updatePetProperties indirectly through updatePet
 		Owner owner = new Owner();

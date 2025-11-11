@@ -16,6 +16,7 @@
 package org.springframework.samples.petclinic.api.controller;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.samples.petclinic.domain.usecase.OwnerUseCase;
@@ -93,16 +94,14 @@ public class PetController {
 
 	@ModelAttribute("pet")
 	public org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Pet findPet(
-			@PathVariable("ownerId") int ownerId,
-			@PathVariable(name = "petId", required = false) @Nullable Integer petId) {
-
-		if (petId == null) {
-			return new org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Pet();
-		}
-
-		Owner domainOwner = ownerService.findById(ownerId);
-		Pet domainPet = domainOwner.getPet(petId);
-		return domainPet != null ? petMapper.toJpa(domainPet) : null;
+		@PathVariable("ownerId") int ownerId,
+		@PathVariable(name = "petId", required = false) Optional<Integer> petId) {
+		return petId.map(id -> {
+				Owner domainOwner = ownerService.findById(ownerId);
+				Pet domainPet = domainOwner.getPet(id);
+				return domainPet != null ? petMapper.toJpa(domainPet) : null;
+			})
+			.orElseGet(org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Pet::new);
 	}
 
 	@InitBinder("owner")

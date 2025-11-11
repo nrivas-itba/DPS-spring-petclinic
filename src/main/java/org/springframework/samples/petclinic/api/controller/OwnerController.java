@@ -16,6 +16,7 @@
 package org.springframework.samples.petclinic.api.controller;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
@@ -70,12 +71,9 @@ public class OwnerController {
 
 	@ModelAttribute("owner")
 	public org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner findOwner(
-			@PathVariable(name = "ownerId", required = false) @Nullable Integer ownerId) {
-		if (ownerId == null) {
-			return new org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner();
-		}
-		Owner domainOwner = ownerService.findById(ownerId);
-		return ownerMapper.toJpa(domainOwner);
+		@PathVariable(name = "ownerId", required = false) Optional<Integer> ownerId) {
+		return ownerId.map(id -> ownerMapper.toJpa(ownerService.findById(id)))
+			.orElseGet(org.springframework.samples.petclinic.infrastructure.persistence.entity.owner.Owner::new);
 	}
 
 	@GetMapping("/owners/new")

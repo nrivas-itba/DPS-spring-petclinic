@@ -15,8 +15,6 @@
  */
 package org.springframework.samples.petclinic.domain.entity;
 
-import org.jspecify.annotations.Nullable;
-
 /**
  * Base domain entity with an id property.
  *
@@ -24,13 +22,13 @@ import org.jspecify.annotations.Nullable;
  */
 public class BaseDomainEntity {
 
-	private @Nullable Integer id;
+	private Integer id;
 
-	public @Nullable Integer getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(@Nullable Integer id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

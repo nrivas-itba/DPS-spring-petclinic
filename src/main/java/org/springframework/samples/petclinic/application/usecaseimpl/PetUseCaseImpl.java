@@ -74,9 +74,6 @@ public class PetUseCaseImpl implements PetUseCase {
 
 	@Override
 	public boolean isBirthDateValid(LocalDate birthDate) {
-		if (birthDate == null) {
-			return true;
-		}
 		LocalDate currentDate = LocalDate.now();
 		return !birthDate.isAfter(currentDate);
 	}
